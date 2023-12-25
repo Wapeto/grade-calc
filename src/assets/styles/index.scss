@@ -1,18 +1,37 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Ubuntu", "Poppins", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.main-container {
+  background: linear-gradient(180deg, #ede8c8 19.79%, #e3d996 100%);
+
+  .text-no-fill {
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-stroke-black {
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: #000;
+  }
+
+  .class-card-image {
+    background-size: 150%;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    transition: background-size 0.5s ease-out;
+
+    &:hover {
+      background-size: 125%;
+    }
+  }
 }
