@@ -9,72 +9,24 @@ export default function MainPage() {
 
   const classList = {
     S3: {
-      Analyse: {
-        exams: ["CC1", "CC2", "Projet"],
-        imageName: "analyse",
-      },
-      LPL: {
-        exams: ["CC1", "CC2", "TP"],
-        imageName: "lpl",
-      },
-      Architecture: {
-        exams: ["CC1", "CC2", "Projet"],
-        imageName: "architecture",
-      },
-      POO: {
-        exams: ["CC1", "TP", "Presence"],
-        imageName: "poo",
-      },
-      "Tech Dev": {
-        exams: ["Rendu 1", "Rendu 2", "Projet"],
-        imageName: "techdev",
-      },
-      Anglais: {
-        exams: ["CC1", "POEM 1", "POEM 2"],
-        imageName: "english",
-      },
-      Option: {
-        exams: ["CC1", "CC2", "CC3"],
-        imageName: "option",
-      },
+      Analyse: ["CC1", "CC2", "Projet"],
+      LPL: ["CC1", "CC2", "TP"],
+      Architecture: ["CC1", "CC2", "Projet"],
+      POO: ["CC1", "TP", "Presence"],
+      "Tech Dev": ["Rendu 1", "Rendu 2", "Projet"],
+      Anglais: ["CC1", "POEM 1", "POEM 2"],
+      Option: ["CC1", "CC2", "CC3"],
     },
     S4: {
-      "Proba & Stat": {
-        exams: ["CC1", "CC2", "Presence"],
-        imageName: "proba",
-      },
-      Analyse: {
-        exams: ["CC1", "CC2", "TP"],
-        imageName: "analyse",
-      },
-      Systems: {
-        exams: ["Projet", "CC1", "TP"],
-        imageName: "systems",
-      },
-      Reseaux : {
-        exams: ["CC1", "CC2", "Projet"],
-        imageName: "reseaux",
-      },
-      SDA : {
-        exams: ["CC1", "CC2", "TP"],
-        imageName: "sda",
-      },
-      POO: {
-        exams: ["CC1", "TP", "Projet"],
-        imageName: "poo",
-      },
-      Web : {
-        exams: ["CC1", "CC2", "Projet"],
-        imageName: "web",
-      },
-      Langue : {
-        exams: ["CC1", "CC2", "Presence"],
-        imageName: "langue",
-      },
-      Option: {
-        exams: ["CC1", "CC2", "CC3"],
-        imageName: "option",
-      },
+      "Proba & Stat": ["CC1", "CC2", "Presence"],
+      Analyse: ["CC1", "CC2", "TP"],
+      Systems: ["Projet", "CC1", "TP"],
+      Reseaux : ["CC1", "CC2", "Projet"],
+      SDA : ["CC1", "CC2", "TP"],
+      POO: ["CC1", "TP", "Projet"],
+      Web : ["CC1", "CC2", "Projet"],
+      Langue : ["CC1", "CC2", "Presence"],
+      Option: ["CC1", "CC2", "CC3"],
     },
     S5 :{},
     S6 :{},
