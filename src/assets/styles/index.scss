@@ -23,6 +23,10 @@ body {
     -webkit-text-stroke-color: #000;
   }
 
+  .max-w-70 {
+    max-width: 70%;
+  }
+
   .class-card-image {
     background-size: 150%;
     background-repeat: no-repeat;
@@ -34,4 +38,12 @@ body {
       background-size: 125%;
     }
   }
+}
+
+.card-folding-transition {
+  transition: height 0.4s ease-out;
+}
+
+.arrow-icon {
+  transition: all 0.5s ease-out;
 }
