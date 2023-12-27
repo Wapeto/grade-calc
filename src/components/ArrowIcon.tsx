@@ -4,12 +4,23 @@ interface ArrowIconProps extends SVGProps<SVGSVGElement> {
   fill?: string;
   stroke?: string;
   className?: string;
+  direction?: 'up' | 'down' | 'left' | 'right';
 }
 
-const ArrowIcon: FC<ArrowIconProps> = ({ className = '', fill = 'none', stroke = 'black', ...props }) => {
+const ArrowIcon: FC<ArrowIconProps> = ({ className = '', fill = 'none', stroke = 'black', direction = 'down', ...props }) => {
+  const rotationDegrees = {
+    up: -180,
+    down: 0,
+    left: -90,
+    right: -270,
+  };
+
+  const rotation = rotationDegrees[direction] || 0;
+
   return (
     <svg 
-      className={`w-6 h-6 ${className}`}
+      className={`arrow-icon w-6 h-6 transform transition-transform ${className}`}
+      style={{ transform: `rotate(${rotation}deg)` }}
       fill={fill}
       stroke={stroke}
       viewBox="0 0 24 24"
@@ -20,5 +31,6 @@ const ArrowIcon: FC<ArrowIconProps> = ({ className = '', fill = 'none', stroke =
     </svg>
   );
 };
+
 
 export default ArrowIcon;
