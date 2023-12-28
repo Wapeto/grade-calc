@@ -23,3 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 Matieres et tout.pdf
 .prettierrc
+.vscode/settings.json
