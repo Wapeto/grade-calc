@@ -19,16 +19,21 @@ interface ClassCardProps {
   classTitle: string;
   examList?: string[];
   onInputChange: (id: string, value: string) => void;
+  average?: number;
 }
 
-const ClassCard: FC<ClassCardProps> = ({classTitle, examList, onInputChange}) => {
+const ClassCard: FC<ClassCardProps> = ({
+  classTitle,
+  examList,
+  onInputChange,
+  average,
+}) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isFolded, setFolded] = useState(true);
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     setImageUrl(getRandomImage(classTitle.toLowerCase().replace(/\s+/g, "")));
-    // No dependency on 'currentLevel' needed
   }, [classTitle]);
 
   const handleCardUnfold = () => {
@@ -51,7 +56,7 @@ const ClassCard: FC<ClassCardProps> = ({classTitle, examList, onInputChange}) =>
       className={`flex flex-col w-48 ${
         isFolded ? "h-48" : "h-64"
       } content-center items-center cursor-pointer`}
-      onClick={handleCardUnfold}
+      {...(isFolded && { onClick: handleCardUnfold })}
     >
       {/* Image */}
       <div
@@ -59,6 +64,7 @@ const ClassCard: FC<ClassCardProps> = ({classTitle, examList, onInputChange}) =>
         className={`class-card-image w-full ${
           isFolded ? "h-32" : "h-28"
         } rounded-t-lg border-primary-500 border-x-2 border-t-2 bg-[image:var(--image-url)]`}
+        {...(!isFolded && { onClick: handleCardUnfold })}
       ></div>
       {/* Bottom */}
       <div
@@ -72,6 +78,7 @@ const ClassCard: FC<ClassCardProps> = ({classTitle, examList, onInputChange}) =>
           className={`inline-flex justify-center items-center gap-2 ${
             !isFolded && "border-b-2 border-text-950"
           }`}
+          {...(!isFolded && { onClick: handleCardUnfold })}
         >
           <p
             className={`text-center text-text-950 text-lg font-semibold ${
@@ -87,8 +94,8 @@ const ClassCard: FC<ClassCardProps> = ({classTitle, examList, onInputChange}) =>
             <input
               key={index}
               type="text"
-              placeholder={exam}
-              onChange={(e) => handleInput(e, exam)}
+              placeholder={exam[0]}
+              onChange={(e) => handleInput(e, exam[0])}
               className="w-[60%] my-2 bg-primary-300/50 placeholder-black/50 text-center font-bold border-primary-600 border-2 rounded-lg"
             />
           ))}
