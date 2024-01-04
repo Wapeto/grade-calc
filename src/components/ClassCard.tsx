@@ -33,6 +33,7 @@ interface ClassCardProps {
 	) => ExamGrades;
 	isCalculationTriggered: boolean;
 	isAllFilled: boolean;
+	onEdit: (classTitle: string, isEdited: boolean) => void;
 }
 
 interface ExamGrades {
@@ -48,6 +49,7 @@ const ClassCard: FC<ClassCardProps> = ({
 	onCalculateMissingGrades,
 	isCalculationTriggered,
 	isAllFilled,
+	onEdit,
 }) => {
 	//#region State & Refs
 	const cardRef = useRef<HTMLDivElement>(null);
@@ -57,7 +59,9 @@ const ClassCard: FC<ClassCardProps> = ({
 	const [isOriginalAverage, setIsOriginalAverage] = useState(true);
 	const [examGrades, setExamGrades] = useState<ExamGrades>({});
 	const [newExamValues, setNewExamValues] = useState<ExamGrades>({});
-
+	const [userFilledGrades, setUserFilledGrades] = useState<ExamGrades>({});
+	const [calculatedGrades, setCalculatedGrades] = useState<ExamGrades>({});
+	const [hasBeenEdited, setHasBeenEdited] = useState(false);
 
 	//#endregion
 
@@ -75,13 +79,14 @@ const ClassCard: FC<ClassCardProps> = ({
 
 	useEffect(() => {
 		//Set isOriginalAverage to true if all grades are filled
-		if (isAllFilled) {
+		if (userFilledGrades && Object.keys(userFilledGrades).length === examList?.length) {
 			setIsOriginalAverage(true);
 			console.log(`%c${classTitle} is all filled`, "color: green");
 		} else {
 			setIsOriginalAverage(false);
 		}
 	}, [isAllFilled, classTitle]);
+
 
 	useEffect(() => {
 		if (
@@ -107,6 +112,8 @@ const ClassCard: FC<ClassCardProps> = ({
 			setNewExamValues(
 				onCalculateMissingGrades(classTitle, updatedGrades, calculatedAverage)
 			);
+			// setHasBeenEdited(false);
+			// console.log(`%c${classTitle} has not been edited (calculated)`, "color: green");
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isCalculationTriggered, calculatedAverage, examGrades, examList]);
@@ -120,6 +127,15 @@ const ClassCard: FC<ClassCardProps> = ({
 		// }
 		console.log(`%c${classTitle} new exam values`, "color: green", newExamValues);
 		setExamGrades(newExamValues);
+		setCalculatedGrades((prevGrades) => {
+			const calculatedGrades = { ...prevGrades };
+			Object.keys(newExamValues).forEach((examName) => {
+				if (!(examName in userFilledGrades)) {
+					calculatedGrades[examName] = newExamValues[examName];
+				}
+			});
+			return calculatedGrades;
+		});
 	}, [newExamValues]);
 
 	const handleCardUnfold = () => {
@@ -129,10 +145,25 @@ const ClassCard: FC<ClassCardProps> = ({
 		}
 	};
 
-	const handleInput = (examName: string, value: string) => {
+	useEffect(() => {
+		console.log("The average changed: ", average, ", the original average is: ", _average, "and the calculated average is: ", calculatedAverage);
+	}, [average]);
+
+	const handleInput = (examName: string, value: string) => { //TODO: solve error when user input non-numeric value
+		console.log(`%c${classTitle} input`, "color: green", examName, value);
+		if (!hasBeenEdited){
+			setHasBeenEdited(true);
+			onEdit(classTitle, true);
+		}
+		setIsOriginalAverage(true);
+		console.log(`%c${classTitle} has been edited`, "color: green");
 		if (value === "") {
 			// Directly set to empty string when input is cleared
 			setExamGrades((prevGrades) => ({
+				...prevGrades,
+				[examName]: "",
+			}));
+			setUserFilledGrades((prevGrades) => ({
 				...prevGrades,
 				[examName]: "",
 			}));
@@ -143,9 +174,24 @@ const ClassCard: FC<ClassCardProps> = ({
 				...prevGrades,
 				[examName]: !isNaN(numericValue) ? numericValue : -1,
 			}));
+			setUserFilledGrades((prevGrades) => ({
+				...prevGrades,
+				[examName]: !isNaN(numericValue) ? numericValue : -1,
+			}));
 		}
 		onInputChange(`${classTitle}-${examName}`, value);
 	};
+
+	useEffect(() => {
+		// console.log("User filled grades", userFilledGrades);
+	}, [userFilledGrades]);
+
+	useEffect(() => {
+		// console.log("Calculated grades", calculatedGrades);
+		Object.keys(calculatedGrades).forEach((examName) => {
+			onInputChange(`${classTitle}-${examName}`, calculatedGrades[examName].toString());
+		});
+	}, [calculatedGrades]);
 
 	return (
 		<div
@@ -169,7 +215,8 @@ const ClassCard: FC<ClassCardProps> = ({
 							? "text-red-500"
 							: "text-text-950/75"
 					} text-2xl font-semibold bg-primary-200/70 rounded-lg border-2 border-primary-800 px-3 py-1`}>
-					{average !== -1 ? average : ""}
+						{hasBeenEdited ? _average : average !== -1 ? average : ""}
+
 				</p>
 			</div>
 			{/* Bottom */}
@@ -194,8 +241,6 @@ const ClassCard: FC<ClassCardProps> = ({
 				</div>
 				<div className={`${isFolded ? "hidden" : "block"} mt-2`}>
 					{examList?.map((exam, index) => {
-						const examName = exam[0];
-						// const isCalculated = newExamValues.hasOwnProperty(examName) && examGrades[examName] === -1;
 						return (
 							<input
 								key={index}

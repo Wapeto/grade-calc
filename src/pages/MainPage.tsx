@@ -8,9 +8,11 @@ export default function MainPage() {
 	const [chosenLevel, setChosenLevel] = useState("S3");
 	const [averages, setAverages] = useState({}); // averages = [{classId: "S3-Analyse", average: 12}, ...
 	const [calculatedAverages, setCalculatedAverages] = useState({});
+	const [userEnteredAverages, setUserEnteredAverages] = useState({});
 	const [targetAverage, setTargetAverage] = useState(10);
 	const [isCalculationTriggered, setIsCalculationTriggered] = useState(false);
 	const [triggerIsAllFilled, setTriggerIsAllFilled] = useState({});
+	const [userEditedCards, setUserEditedCards] = useState({});
 
 	const classList = React.useMemo(() => {
 		return {
@@ -171,20 +173,21 @@ export default function MainPage() {
 	const handleInputChange = (id, value) => {
 		setInputValues((prevValues) => {
 			const updatedValues = { ...prevValues, [id]: parseFloat(value) };
-
+			
 			const classId = id.split("-")[0];
-
+			
 			// Check if all inputs for this class are filled
 			const allFilled = classList[chosenLevel][classId].exams.every(
 				([examName]) =>
-					updatedValues[`${classId}-${examName}`] !== undefined &&
-					!isNaN(updatedValues[`${classId}-${examName}`])
-			);
-			setTriggerIsAllFilled((prevValues) => ({
-				...prevValues,
-				[classId]: allFilled,
-			}));
-
+				updatedValues[`${classId}-${examName}`] !== undefined &&
+				!isNaN(updatedValues[`${classId}-${examName}`])
+				);
+				setTriggerIsAllFilled((prevValues) => ({
+					...prevValues,
+					[classId]: allFilled,
+				}));
+				
+			// console.log(`%c${id} changed from ${prevValues[id]} to ${value} and all the values are filled: ${allFilled}`, "color: purple");
 			if (allFilled) {
 				const grades = classList[chosenLevel][classId].exams.map(
 					([examName]) => updatedValues[`${classId}-${examName}`]
@@ -193,7 +196,12 @@ export default function MainPage() {
 					grades,
 					classList[chosenLevel][classId].exams.map(([, coef]) => coef)
 				);
+				console.log(`%c${classId} average is ${average}`, "color: purple");
 				setAverages((prevAverages) => ({
+					...prevAverages,
+					[`${chosenLevel}-${classId}`]: average,
+				}));
+				setUserEnteredAverages((prevAverages) => ({
 					...prevAverages,
 					[`${chosenLevel}-${classId}`]: average,
 				}));
@@ -207,6 +215,17 @@ export default function MainPage() {
 
 			return updatedValues;
 		});
+	};
+
+	const handleCardsEdit = (editedCards) => {
+		setUserEditedCards(editedCards);
+		console.log("Edited cards", editedCards);
+
+		const unfilteredList = {};
+		Object.keys(editedCards).forEach((key) => {
+			unfilteredList[key] = averages[key];
+		});
+		setUserEnteredAverages(unfilteredList);
 	};
 
 	const calculateAverage = (values, coefficients) => {
@@ -265,6 +284,7 @@ export default function MainPage() {
 		const totalPoints = targetAverage * total_coef;
 		const averages_values_coefs = Object.entries(values).map(([key, average]) => {
 			const [lvl, className] = key.split("-");
+			console.log(`%c${className} average is ${average}`, "color: orange");
 			return [average, classList[lvl][className].coef];
 		});
 		const currentPoints = averages_values_coefs.reduce((acc, val) => acc + val[0] * val[1], 0);
@@ -334,7 +354,8 @@ export default function MainPage() {
 	const handleCalculateClick = () => {
 		setIsCalculationTriggered(true);
 		console.log("%cStart of calculations", "color: green; font-weight: bold");
-		calculateMissingAverages(averages, targetAverage);
+		console.log("The current user averages are", userEnteredAverages);
+		calculateMissingAverages(userEnteredAverages, targetAverage);
 	};
 
 	// Reset the trigger after calculations are done
@@ -365,6 +386,7 @@ export default function MainPage() {
 				onCalculateMissingGrades={calculateMissingGrades}
 				isCalculationTriggered={isCalculationTriggered}
 				isAllFilledTrigger={triggerIsAllFilled}
+				onCardsEdit={handleCardsEdit}
 			/>
 			<CalculateButton onClick={handleCalculateClick} />
 		</div>
