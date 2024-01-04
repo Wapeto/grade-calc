@@ -1,6 +1,11 @@
 import React, { FC, useState, useRef, useEffect } from "react";
 import ArrowIcon from "./ArrowIcon.tsx";
 
+// TODO : Add images for each class
+// TODO : Add limit to 20 for the grades
+// TODO : Add warning when the grade is over 20, not a number or < 0
+// TODO : Add a way to specify max/min grade for an exam (ex: CC1: <20, TP: >10)
+
 // Simplified image import and selection logic
 const images = {
 	analyse: ["analyse-1.png", "analyse-2.png"],
@@ -20,23 +25,102 @@ interface ClassCardProps {
 	examList?: string[];
 	onInputChange: (id: string, value: string) => void;
 	_average?: number;
+	calculatedAverage?: number;
+	onCalculateMissingGrades: (
+		className: string,
+		examValues: ExamGrades,
+		targetAverage?: number
+	) => ExamGrades;
+	isCalculationTriggered: boolean;
+	isAllFilled: boolean;
 }
 
-const ClassCard: FC<ClassCardProps> = ({ classTitle, examList, onInputChange, _average }) => {
+interface ExamGrades {
+	[examName: string]: number | string;
+}
+
+const ClassCard: FC<ClassCardProps> = ({
+	classTitle,
+	examList,
+	onInputChange,
+	_average,
+	calculatedAverage,
+	onCalculateMissingGrades,
+	isCalculationTriggered,
+	isAllFilled,
+}) => {
+	//#region State & Refs
 	const cardRef = useRef<HTMLDivElement>(null);
 	const [isFolded, setFolded] = useState(true);
 	const [imageUrl, setImageUrl] = useState("");
 	const [average, setAverage] = useState(-1);
+	const [isOriginalAverage, setIsOriginalAverage] = useState(true);
+	const [examGrades, setExamGrades] = useState<ExamGrades>({});
+	const [newExamValues, setNewExamValues] = useState<ExamGrades>({});
+
+
+	//#endregion
 
 	useEffect(() => {
+		//Set image on mount
 		setImageUrl(getRandomImage(classTitle.toLowerCase().replace(/\s+/g, "")));
 	}, [classTitle]);
 
 	useEffect(() => {
+		//Set average to the one passed in props
 		if (_average !== undefined) {
 			setAverage(_average);
 		}
 	}, [_average]);
+
+	useEffect(() => {
+		//Set isOriginalAverage to true if all grades are filled
+		if (isAllFilled) {
+			setIsOriginalAverage(true);
+			console.log(`%c${classTitle} is all filled`, "color: green");
+		} else {
+			setIsOriginalAverage(false);
+		}
+	}, [isAllFilled, classTitle]);
+
+	useEffect(() => {
+		if (
+			(calculatedAverage === undefined ||
+				calculatedAverage === -1 ||
+				calculatedAverage === average) &&
+			!(isCalculationTriggered && examList)
+		) {
+			return;
+		}
+
+		setAverage(calculatedAverage ?? -1);
+
+		if (isCalculationTriggered && examList) {
+			const updatedGrades = { ...examGrades };
+			examList.forEach((exam) => {
+				if (updatedGrades[exam[0]] === undefined) {
+					updatedGrades[exam[0]] = -1;
+				}
+			});
+			setExamGrades(updatedGrades);
+			// const newExamValues = onCalculateMissingGrades(classTitle, updatedGrades, calculatedAverage);
+			setNewExamValues(
+				onCalculateMissingGrades(classTitle, updatedGrades, calculatedAverage)
+			);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isCalculationTriggered, calculatedAverage, examGrades, examList]);
+
+	useEffect(() => {
+		if (!newExamValues || !Object.keys(newExamValues).length) {
+			return;
+		}
+		// if (Object.keys(newExamValues).length === 0) {
+		// 	return;
+		// }
+		console.log(`%c${classTitle} new exam values`, "color: green", newExamValues);
+		setExamGrades(newExamValues);
+	}, [newExamValues]);
 
 	const handleCardUnfold = () => {
 		setFolded(!isFolded);
@@ -45,8 +129,22 @@ const ClassCard: FC<ClassCardProps> = ({ classTitle, examList, onInputChange, _a
 		}
 	};
 
-	const handleInput = (e: React.ChangeEvent<HTMLInputElement>, exam: string) => {
-		onInputChange(`${classTitle}-${exam}`, e.target.value);
+	const handleInput = (examName: string, value: string) => {
+		if (value === "") {
+			// Directly set to empty string when input is cleared
+			setExamGrades((prevGrades) => ({
+				...prevGrades,
+				[examName]: "",
+			}));
+		} else {
+			// Parse and set as number otherwise
+			const numericValue = parseFloat(value);
+			setExamGrades((prevGrades) => ({
+				...prevGrades,
+				[examName]: !isNaN(numericValue) ? numericValue : -1,
+			}));
+		}
+		onInputChange(`${classTitle}-${examName}`, value);
 	};
 
 	return (
@@ -66,7 +164,11 @@ const ClassCard: FC<ClassCardProps> = ({ classTitle, examList, onInputChange, _a
 				<p
 					className={`${
 						average !== -1 ? "opacity-100" : "opacity-0"
-					} average-show-transition text-center text-text-950/75 text-2xl font-semibold bg-primary-200/70 rounded-lg border-2 border-primary-800 px-3 py-1`}>
+					} average-show-transition text-center ${
+						average === calculatedAverage && !isOriginalAverage
+							? "text-red-500"
+							: "text-text-950/75"
+					} text-2xl font-semibold bg-primary-200/70 rounded-lg border-2 border-primary-800 px-3 py-1`}>
 					{average !== -1 ? average : ""}
 				</p>
 			</div>
@@ -91,15 +193,20 @@ const ClassCard: FC<ClassCardProps> = ({ classTitle, examList, onInputChange, _a
 					<ArrowIcon direction={isFolded ? "down" : "up"} />
 				</div>
 				<div className={`${isFolded ? "hidden" : "block"} mt-2`}>
-					{examList?.map((exam, index) => (
-						<input
-							key={index}
-							type="text"
-							placeholder={exam[0]}
-							onChange={(e) => handleInput(e, exam[0])}
-							className="w-[60%] my-2 bg-primary-300/50 placeholder-black/50 text-center font-bold border-primary-600 border-2 rounded-lg"
-						/>
-					))}
+					{examList?.map((exam, index) => {
+						const examName = exam[0];
+						// const isCalculated = newExamValues.hasOwnProperty(examName) && examGrades[examName] === -1;
+						return (
+							<input
+								key={index}
+								type="text"
+								placeholder={exam[0]}
+								value={examGrades[exam[0]] !== undefined ? examGrades[exam[0]] : ""}
+								onChange={(e) => handleInput(exam[0], e.target.value)}
+								className={`w-[60%] my-2 bg-primary-300/50 placeholder-black/50 text-center font-bold border-primary-600 border-2 rounded-lg`}
+							/>
+						);
+					})}
 				</div>
 			</div>
 		</div>
