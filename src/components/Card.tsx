@@ -14,6 +14,10 @@ const images = {
 	analyse: ["analyse-1.png", "analyse-2.png"],
 	poo: ["poo-1.png", "poo-2.png"],
 	anglais: ["anglais-1.png", "anglais-2.png"],
+	lpl: ["lpl-1.png", "lpl-2.png"],
+	architecture: ["architecture-1.png", "architecture-2.png"],
+	sda: ["sda-1.png", "sda-2.png"],
+	techdev: ["tech-dev-1.png", "tech-dev-2.png"],
 	// ... other classes
 };
 
@@ -22,6 +26,8 @@ const getRandomImage = (className) => {
 	const randomIndex = Math.floor(Math.random() * imageFiles.length);
 	return require(`../assets/images/${imageFiles[randomIndex]}`);
 };
+
+
 const Card = ({
 	//.PROPS
 	classLevel,
