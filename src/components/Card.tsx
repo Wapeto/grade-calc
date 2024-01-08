@@ -67,6 +67,7 @@ const Card = ({ //.PROPS
 
 	useEffect(() => {//* Updates the average in the classList
 		// console.log('%cUpdating average for ', 'color: DarkOrchid', className, 'to', average);
+		editClassAverage(classLevel, className, average);
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [average]);
 

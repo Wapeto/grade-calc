@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import ArrowIcon from "./ArrowIcon.tsx";
 
 export default function LvlDropdown({ levelList, setChosenLevel }) {
-	// TODO: reset the inpout values on level change
+	// TODO: reset the input values on level change
 	const [isFolded, setFolded] = useState(true);
 	const [currentLevel, setCurrentLevel] = useState(levelList[0]);
 	const dropDownRef = useRef<HTMLDivElement>(null);
