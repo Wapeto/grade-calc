@@ -22,7 +22,7 @@ const ClassCardsContainer = ({ currentLevel, isCalculationTriggered }) => {
 	useEffect(() => {
 		if (isCalculationTriggered) {
 			console.log("%cStart of calculations", "color: green");
-			const updatedValues = calculateMissingValues("average", classList[currentLevel], 10);
+			const updatedValues = calculateMissingValues(classList[currentLevel], 10);
 
 			// Update the context state with new values
 			Object.keys(updatedValues).forEach((className) => {
@@ -33,7 +33,12 @@ const ClassCardsContainer = ({ currentLevel, isCalculationTriggered }) => {
 
 			const globalAverage = calculateAverage("global", updatedValues);
 	
-			console.log("%cGlobal average", "color: green", globalAverage);
+			console.log("\n%cGlobal average : ", "color: green", globalAverage);
+			if (parseFloat(globalAverage.toFixed(2)) === 10){
+				console.log('%cAll good !', 'color: green');
+			}else{
+				console.log('%cNot good (there was an error calculating the missing averages or grades) :(', 'color: red');
+			}
 		}
 	}, [isCalculationTriggered, classList, currentLevel, updateClassList]);
 
