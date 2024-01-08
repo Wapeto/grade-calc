@@ -1,7 +1,7 @@
 import { ClassModel } from "../models/ClassModel";
 import { ExamModel } from "../models/ExamModel";
 
-// TODO: Add a function to calculate missing grades
+// TODO: Handle when the average is already above the target average
 export const calculateMissingValues = (values, targetAverage) => {
     console.clear();
 	console.log("%cCalculating missing averages...", "color: coral");
@@ -39,7 +39,11 @@ export const calculateMissingValues = (values, targetAverage) => {
 	for (const className of Object.keys(missingValues)) {
 		missingValues[className].average = pointsToGive / missingCoefs;
 		console.log("%cCalculating missing grades for", "color: BurlyWood", className, "...");
-		calculateMissingGrades(missingValues[className].exams, missingValues[className].average);
+		const newGradesValues = calculateMissingGrades(missingValues[className].exams, missingValues[className].average);
+
+        console.log('New grades values :', newGradesValues);
+
+        missingValues[className].exams = newGradesValues;
 
 		updatedValues[className] = missingValues[className];
 		console.log(
@@ -47,7 +51,7 @@ export const calculateMissingValues = (values, targetAverage) => {
 			`color: green`
 		);
 	}
-
+    console.log('Updated values :', updatedValues);
 	return updatedValues;
 };
 
@@ -74,7 +78,18 @@ const calculateMissingGrades = (values, targetAverage) => {
 	const pointsToGive = totalPoints - currentPoints;
 
 	for (const examName of Object.keys(missingGrades)) {
-		missingGrades[examName].grade = pointsToGive / missingCoefs;
+		missingGrades[examName].grade = (pointsToGive / missingCoefs).toFixed(2);
 		console.log(`%c${examName} grade is now ${missingGrades[examName].grade}`, `color: green`);
 	}
+    
+    const updatedValues = values.map((exam) => {
+        if (missingGrades[exam.name]) {
+            return missingGrades[exam.name];
+        } else {
+            return exam;
+        }
+    });
+
+    // console.log('Updated values :', updatedValues);
+    return updatedValues;
 };
