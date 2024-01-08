@@ -22,7 +22,8 @@ const getRandomImage = (className) => {
 	const randomIndex = Math.floor(Math.random() * imageFiles.length);
 	return require(`../assets/images/${imageFiles[randomIndex]}`);
 };
-const Card = ({ //.PROPS
+const Card = ({
+	//.PROPS
 	classLevel,
 	className,
 	classCoef,
@@ -41,23 +42,24 @@ const Card = ({ //.PROPS
 
 	const { classList, editClassAverage, editClassEdited } = useClassList();
 
-	
-	useEffect(() => {//* Sets the values for allFilled and userEdited
+	useEffect(() => {
+		//* Sets the image on mount
+		setImageUrl(getRandomImage(className.toLowerCase().replace(/\s+/g, "")));
+	}, [className]);
+
+	useEffect(() => {
+		//* Sets the values for allFilled and userEdited
 		// console.log(`${className} has been %c edited : %c ${userEdited}`, "color: DarkOrchid", `color: ${userEdited ? "green" : "red"}`);
 
 		let fillCheck = examList.every((exam) => exam.grade !== -1) && userEdited;
 		setAllFilled(fillCheck);
 		editClassEdited(classLevel, className, userEdited);
 
-
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [examList, updateTrigger, userEdited]);
 
-	useEffect(() => {//* Sets the image on mount
-		setImageUrl(getRandomImage(className.toLowerCase().replace(/\s+/g, "")));
-	}, [className]);
-
-	useEffect(() => {//* Calculates the average if allFilled is true, else sets it to -1
+	useEffect(() => {
+		//* Calculates the average if allFilled is true, else sets it to -1
 		// console.log(`${className} is %c filled : %c ${allFilled}`, "color: DarkKhaki", `color: ${allFilled ? "green" : "red"}`);
 		if (allFilled) setAverage(calculateAverage("class", examList));
 		else {
@@ -65,13 +67,15 @@ const Card = ({ //.PROPS
 		}
 	}, [allFilled, examList, updateTrigger]);
 
-	useEffect(() => {//* Updates the average in the classList
+	useEffect(() => {
+		//* Updates the average in the classList
 		// console.log('%cUpdating average for ', 'color: DarkOrchid', className, 'to', average);
 		editClassAverage(classLevel, className, average);
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [average]);
 
-	useEffect(() => { //* Checks if the calculation has been triggered and if allFilled is true to reset userEdited
+	useEffect(() => {
+		//* Checks if the calculation has been triggered and if allFilled is true to reset userEdited
 		if (onCalculationTrigger) {
 			if (!allFilled) {
 				// console.log('Not all grades are filled for :', className);
@@ -79,7 +83,7 @@ const Card = ({ //.PROPS
 				return;
 			}
 		}
-	}, [onCalculationTrigger, allFilled, className])
+	}, [onCalculationTrigger, allFilled, className]);
 
 	const handleCardUnfold = () => {
 		setFolded(!isFolded);
@@ -91,7 +95,7 @@ const Card = ({ //.PROPS
 	const handleExamUpdate = (examName, examValue) => {
 		onCardUpdate(className, examName, examValue);
 		if (userEdited === false) {
-			console.log('the grade has been edited for the first time');
+			console.log("the grade has been edited for the first time");
 			setAverage(-1);
 			editClassAverage(classLevel, className, -1);
 		}
