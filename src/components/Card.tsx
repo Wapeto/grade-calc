@@ -28,7 +28,6 @@ const Card = ({
 	className,
 	classCoef,
 	classAverage,
-	examList,
 	onCardUpdate,
 	updateTrigger,
 	onCalculationTrigger,
@@ -41,6 +40,8 @@ const Card = ({
 	const [average, setAverage] = useState(-1);
 
 	const { classList, editClassAverage, editClassEdited } = useClassList();
+	const startExamList = classList[classLevel][className].exams;
+	const [examList, setExamList] = useState(startExamList);
 
 	useEffect(() => {
 		//* Sets the image on mount
@@ -54,6 +55,9 @@ const Card = ({
 		let fillCheck = examList.every((exam) => exam.grade !== -1) && userEdited;
 		setAllFilled(fillCheck);
 		editClassEdited(classLevel, className, userEdited);
+
+		//update examList
+		setExamList(classList[classLevel][className].exams);
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [examList, updateTrigger, userEdited]);
@@ -150,7 +154,7 @@ const Card = ({
 					<ArrowIcon direction={isFolded ? "down" : "up"} />
 				</div>
 				<div className={`${isFolded ? "hidden" : "block"} mt-2`}>
-					{examList.map((exam, index) => (
+					{classList[classLevel][className].exams.map((exam, index) => (
 						<Exam
 							key={index}
 							examName={exam.name}

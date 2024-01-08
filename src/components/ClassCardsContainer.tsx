@@ -51,7 +51,7 @@ const ClassCardsContainer = ({ currentLevel, isCalculationTriggered }) => {
 					className={classTitle}
 					classCoef={classList[currentLevel][classTitle].coef}
 					classAverage={-1}
-					examList={classList[currentLevel][classTitle].exams}
+					// examList={classList[currentLevel][classTitle].exams}
 					onCardUpdate={handleCardsEdit}
 					updateTrigger={updateTrigger}
 					onCalculationTrigger={isCalculationTriggered}
