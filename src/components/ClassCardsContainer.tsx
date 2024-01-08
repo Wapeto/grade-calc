@@ -21,7 +21,15 @@ const ClassCardsContainer = ({ currentLevel, isCalculationTriggered }) => {
 
 	useEffect(() => {
 		if (isCalculationTriggered) {
+			for (const className of Object.keys(classList[currentLevel])) {
+				for (const exam of classList[currentLevel][className].exams) {
+					if (!exam.isEdited){
+						exam.grade = -1;
+					}
+				}
+			}
 			console.log("%cStart of calculations", "color: green");
+			// console.log('Values going into the calculation : ', classList[currentLevel]);
 			const updatedValues = calculateMissingValues(classList[currentLevel], 10);
 
 			// Update the context state with new values

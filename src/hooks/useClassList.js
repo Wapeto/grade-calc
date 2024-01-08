@@ -26,7 +26,16 @@ export const useClassList = () => {
     updateClassList(level, className, updatedClass);
   };
 
+  const editExamEdited = (level, className, examName, isEdited) => {
+    const updatedClass = { ...classList[level][className] };
+    const examIndex = updatedClass.exams.findIndex(exam => exam.name === examName);
+    if (examIndex !== -1) {
+      updatedClass.exams[examIndex].isEdited = isEdited;
+      updateClassList(level, className, updatedClass);
+    }
+  };
+
   // Add more functions here if needed
 
-  return { classList, editExamGrade, editClassAverage, editClassEdited};
+  return { classList, editExamGrade, editClassAverage, editClassEdited, editExamEdited};
 };

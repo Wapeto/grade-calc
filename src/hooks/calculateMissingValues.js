@@ -12,17 +12,18 @@ export const calculateMissingValues = (values, targetAverage) => {
 	let totalCoef = 0;
 	let missingCoefs = 0;
 	for (const className of Object.keys(values)) {
-		if (values[className].average === -1 || values[className].isEdited === false) {
+        const allGradesSet = checkIfAllGradesAreSet(values[className].exams);
+		if (values[className].average === -1 || values[className].isEdited === false || allGradesSet === false) {
 			console.log(`%c${className} average is missing`, `color: red`);
 			// Deep copy the class instance
 			missingValues[className] = new ClassModel(
 				values[className].level,
 				values[className].name,
 				values[className].exams.map(
-					(exam) => new ExamModel(exam.name, exam.grade, exam.coef)
+					(exam) => new ExamModel(exam.name, exam.grade, exam.coef, exam.isEdited)
 				),
 				values[className].coef,
-				values[className].average
+				-1,
 			);
 			missingCoefs += values[className].coef;
 		} else {
@@ -41,7 +42,7 @@ export const calculateMissingValues = (values, targetAverage) => {
 		console.log("%cCalculating missing grades for", "color: BurlyWood", className, "...");
 		const newGradesValues = calculateMissingGrades(missingValues[className].exams, missingValues[className].average);
 
-        console.log('New grades values :', newGradesValues);
+        // console.log('New grades values :', newGradesValues, 'for', missingValues[className].average);
 
         missingValues[className].exams = newGradesValues;
 
@@ -51,8 +52,17 @@ export const calculateMissingValues = (values, targetAverage) => {
 			`color: green`
 		);
 	}
-    console.log('Updated values :', updatedValues);
+    // console.log('Updated values :', updatedValues);
 	return updatedValues;
+};
+
+const checkIfAllGradesAreSet = (values) => {
+    for (const exam of values) {
+        if (exam.grade === -1) {
+            return false;
+        }
+    }
+    return true;
 };
 
 const calculateMissingGrades = (values, targetAverage) => {
@@ -65,7 +75,7 @@ const calculateMissingGrades = (values, targetAverage) => {
 		if (exam.grade === -1) {
 			console.log(`%c${exam.name} grade is missing`, `color: red`);
 			// Deep copy the class instance
-			missingGrades[exam.name] = new ExamModel(exam.name, exam.grade, exam.coef);
+			missingGrades[exam.name] = new ExamModel(exam.name, exam.grade, exam.coef, exam.isEdited);
 			missingCoefs += exam.coef;
 		} else {
 			console.log(`%c${exam.name} grade is ${exam.grade}`, `color: green`);

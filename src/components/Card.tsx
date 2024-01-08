@@ -39,7 +39,7 @@ const Card = ({
 	const [userEdited, setUserEdited] = useState(false);
 	const [average, setAverage] = useState(-1);
 
-	const { classList, editClassAverage, editClassEdited } = useClassList();
+	const { classList, editClassAverage, editClassEdited, editExamEdited } = useClassList();
 	const startExamList = classList[classLevel][className].exams;
 	const [examList, setExamList] = useState(startExamList);
 
@@ -99,12 +99,21 @@ const Card = ({
 	const handleExamUpdate = (examName, examValue) => {
 		onCardUpdate(className, examName, examValue);
 		if (userEdited === false) {
-			console.log("the grade has been edited for the first time");
+			// console.log("the grade has been edited for the first time");
 			setAverage(-1);
 			editClassAverage(classLevel, className, -1);
 		}
 		setUserEdited(true);
 	};
+
+	const handleGradeUpdate = (examName, edited) => {
+		editExamEdited(classLevel, className, examName, edited);
+		// console.log('Edited state for', examName, 'is', edited);
+		if (!allFilled) {
+			setAverage(-1);
+			editClassAverage(classLevel, className, -1);
+		}
+	}
 
 	return (
 		<div
@@ -160,6 +169,7 @@ const Card = ({
 							examName={exam.name}
 							examGradeCoef={[exam.grade, exam.coef]}
 							onExamUpdate={handleExamUpdate}
+							updateEditedState={handleGradeUpdate}
 						/>
 					))}
 				</div>
