@@ -4,7 +4,7 @@ import ClassCardsContainer from "../components/ClassCardsContainer.tsx";
 import CalculateButton from "../components/CalculateButton.tsx";
 import { useClassList } from "../hooks/useClassList";
 
-
+// TODO: Add instructions
 export default function MainPage() {
 	const [chosenLevel, setChosenLevel] = useState("S3");
 	const [targetAverage, setTargetAverage] = useState(10);
