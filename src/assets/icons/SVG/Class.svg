@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34 34">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #cccccb;
+        stroke-linejoin: round;
+        stroke-width: 2px;
+      }
+
+      .cls-2 {
+        stroke-linecap: round;
+      }
+    </style>
+  </defs>
+  <g id="Icons">
+    <g id="Class">
+      <g id="Tableau">
+        <rect class="cls-1" x="1.22" y="1" width="31.78" height="4.54"/>
+        <rect class="cls-1" x="3.69" y="5.54" width="26.83" height="18.97"/>
+        <line class="cls-2" x1="9.78" y1="17.87" x2="14.36" y2="17.87"/>
+        <line class="cls-2" x1="9.94" y1="12.36" x2="19.69" y2="12.36"/>
+        <line class="cls-2" x1="1" y1="24.51" x2="33" y2="24.51"/>
+      </g>
+      <g id="Tirette">
+        <line class="cls-2" x1="17.11" y1="24.51" x2="17.11" y2="27.92"/>
+        <ellipse class="cls-2" cx="17.11" cy="30.42" rx="2.45" ry="2.58"/>
+      </g>
+    </g>
+  </g>
+</svg>

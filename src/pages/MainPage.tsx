@@ -3,6 +3,7 @@ import LvlDropdown from "../components/LvlDropdown.tsx";
 import ClassCardsContainer from "../components/ClassCardsContainer.tsx";
 import CalculateButton from "../components/CalculateButton.tsx";
 import { useClassList } from "../hooks/useClassList";
+import Sidebar from "../components/Sidebar.jsx";
 
 // TODO: Add instructions
 export default function MainPage() {
@@ -175,17 +176,8 @@ export default function MainPage() {
 	};
 
 	return (
-		<div className="main-container text-center min-w-screen min-h-screen flex flex-col items-center px-6">
-			<div className="inline-flex mt-6 p-2 justify-center items-center gap-2 border-b-2 border-black">
-				<p className="text-7xl font-light text-text-950">Grade</p>
-				<p className="text-7xl font-bold text-no-fill text-stroke-black">Calculator</p>
-			</div>
-			<LvlDropdown levelList={Object.keys(classList)} setChosenLevel={handleSelectedLevel} />
-			<ClassCardsContainer
-				currentLevel={chosenLevel}
-				isCalculationTriggered={isCalculationTriggered}
-			/>
-			<CalculateButton onClick={handleCalculateClick} />
+		<div className="main-container bg-background-50 text-center min-w-screen min-h-screen flex flex-col items-center px-6">
+			<Sidebar />
 		</div>
 	);
 }
