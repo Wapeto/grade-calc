@@ -3,11 +3,12 @@ import LvlDropdown from "../components/LvlDropdown.tsx";
 import ClassCardsContainer from "../components/ClassCardsContainer.tsx";
 import CalculateButton from "../components/CalculateButton.tsx";
 import { useClassList } from "../hooks/useClassList";
-import Sidebar from "../components/Sidebar.jsx";
+import Sidebar from "../components/Sidebar.tsx";
 
 // TODO: Add instructions
 export default function MainPage() {
-	const [chosenLevel, setChosenLevel] = useState("S3");
+	const [chosenCursus, setChosenCursus] = useState("");
+	const [chosenLevel, setChosenLevel] = useState("");
 	const [targetAverage, setTargetAverage] = useState(10);
 	const [isCalculationTriggered, setIsCalculationTriggered] = useState(false);
 
@@ -171,13 +172,23 @@ export default function MainPage() {
 		}
 	}, [isCalculationTriggered]);
 
-	const handleSelectedLevel = (level) => {
+	const handleSelectedLevel = (cursus, level) => {
+		setChosenCursus(cursus);
 		setChosenLevel(level);
+		console.log("cursus :", cursus, "level :", level);
 	};
 
 	return (
-		<div className="main-container bg-background-50 text-center min-w-screen min-h-screen flex flex-col items-center px-6">
-			<Sidebar />
+		<div className="main-container bg-background-50 text-center min-w-screen min-h-screen flex">
+			<Sidebar levelHandling={handleSelectedLevel} />
+			<div className="flex flex-col flex-grow justify-start items-start p-6">
+				{chosenCursus !== "" && chosenLevel !== "" && (
+					<div className="p-2 flex w-full items-baseline gap-4 border-b-2">
+						<h2 className="font-bold text-3xl">{chosenCursus}</h2>
+						<h3 className="font-normal text-2xl">{chosenLevel}</h3>
+					</div>
+				)}
+			</div>
 		</div>
 	);
 }
