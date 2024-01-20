@@ -7,10 +7,10 @@ import SettingsIcon from "../assets/icons/SVG/Settings.svg";
 import SupportIcon from "../assets/icons/SVG/Support.svg";
 
 export default function Sidebar({levelHandling}) {
-	const [cursusList, setCursusList] = useState<{ id: string }[]>([]);
-	const [selectedCursus, setSelectedCursus] = useState<string>("");
-	const [levelsList, setLevelsList] = useState<string[]>([]);
-	const [selectedLevel, setSelectedLevel] = useState<string>("");
+	const [cursusList, setCursusList] = useState([]);
+	const [selectedCursus, setSelectedCursus] = useState("");
+	const [levelsList, setLevelsList] = useState([]);
+	const [selectedLevel, setSelectedLevel] = useState("");
 
 	const getCursus = async () => {
 		await getDocs(collection(db, "Curriculums")).then((querySnapshot) => {
@@ -19,9 +19,9 @@ export default function Sidebar({levelHandling}) {
 		});
 	};
 
-	const getLevels = async (cursusID: string) => {
+	const getLevels = async (cursusID) => {
 		const defaultLevels = ["S1", "S2", "S3", "S4", "S5", "S6"];
-		const foundLevels: string[] = [];
+		const foundLevels = [];
 		for (const level of defaultLevels) {
 			const levelCollectionRef = collection(db, "Curriculums", cursusID, level);
 			const querySnapshot = await getDocs(levelCollectionRef);
@@ -53,11 +53,11 @@ export default function Sidebar({levelHandling}) {
 		}
 	}, [levelHandling, selectedCursus, selectedLevel]);
 
-	const handleCursusSelect = (cursusID: string) => {
+	const handleCursusSelect = (cursusID) => {
 		setSelectedCursus(cursusID);
 	};
 
-	const handleLevelSelect = (levelID: string) => {
+	const handleLevelSelect = (levelID) => {
 		setSelectedLevel(levelID);
 	};
 
