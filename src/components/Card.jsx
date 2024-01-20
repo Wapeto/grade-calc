@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import ArrowIcon from "./ArrowIcon.tsx";
 import Exam from "./Exam.tsx";
 import { calculateAverage } from "../hooks/calculateAverage.js";
-import { useClassList } from "../hooks/useClassList";
+import { useClassList } from "../hooks/useClassList.js";
 import defaultIcon from "../assets/icons/SVG/Class.svg";
 
 // TODO : Add images for each class

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { ClassListContext } from "../ClassListContext";
 import { useClassList } from "../hooks/useClassList";
-import Card from "./Card.tsx";
+import Card from "./Card.jsx";
 import { calculateMissingValues } from "../hooks/calculateMissingValues.js";
 import { calculateAverage } from "../hooks/calculateAverage.js";
 

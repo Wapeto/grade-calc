@@ -12,6 +12,9 @@ export default function Sidebar({levelHandling}) {
 	const [levelsList, setLevelsList] = useState([]);
 	const [selectedLevel, setSelectedLevel] = useState("");
 
+	const [cursusUnfolded, setCursusUnfolded] = useState(false);
+	const [levelUnfolded, setLevelUnfolded] = useState(false);
+
 	const getCursus = async () => {
 		await getDocs(collection(db, "Curriculums")).then((querySnapshot) => {
 			const cursus = querySnapshot.docs.map((doc) => ({ id: doc.id, data: doc.data()}));
@@ -51,14 +54,24 @@ export default function Sidebar({levelHandling}) {
 		if (selectedLevel !== "" && selectedCursus !== "") {
 			levelHandling(selectedCursus, selectedLevel);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedCursus, selectedLevel]);
 
 	const handleCursusSelect = (cursusID) => {
 		setSelectedCursus(cursusID);
+		setLevelUnfolded(true);
 	};
 
 	const handleLevelSelect = (levelID) => {
 		setSelectedLevel(levelID);
+	};
+
+	const handleCursusUnfold = () => {
+		setCursusUnfolded(!cursusUnfolded);
+	};
+
+	const handleLevelUnfold = () => {
+		setLevelUnfolded(!levelUnfolded);
 	};
 
 	return (
@@ -69,17 +82,17 @@ export default function Sidebar({levelHandling}) {
 			<div className="content w-full flex flex-col justify-between items-start flex-grow">
 				<div className="categories w-full flex flex-col items-start gap-10">
 					<div className="cursus w-full flex flex-col gap-3">
-						<div className="category-title w-full flex flex-row justify-between items-center">
+						<button className="category-title w-full flex flex-row justify-between items-center" onClick={handleCursusUnfold}>
 							<div className="icon-name flex items-center gap-2">
 								<img src={UniversityIcon} alt="University Icon" className="svg" />
 								<h2 className="text-2xl text-center font-medium text-text-600">
 									Cursus
 								</h2>
 							</div>
-							<button className="text-2xl font-medium">+</button>
-						</div>
+							<p className="text-2xl font-medium">{cursusUnfolded ? "-" : "+"}</p>
+						</button>
 						<div className="flex flex-col items-start gap-2 pl-10">
-							{cursusList.map((cursus, index) => (
+							{cursusUnfolded && cursusList.map((cursus, index) => (
 								<button
 									key={index}
 									onClick={() => handleCursusSelect(cursus.id)}
@@ -90,17 +103,17 @@ export default function Sidebar({levelHandling}) {
 						</div>
 					</div>
 					<div className="niveau w-full flex flex-col gap-3">
-						<div className="category-title w-full flex flex-row justify-between items-center">
+						<button className="category-title w-full flex flex-row justify-between items-center" onClick={handleLevelUnfold}>
 							<div className="icon-name flex items-center gap-2">
 								<img src={ClassIcon} alt="University Icon" className="svg" />
 								<h2 className="text-2xl text-center font-medium text-text-600">
 									Niveau
 								</h2>
 							</div>
-							<button className="text-2xl font-medium">+</button>
-						</div>
+							<p className="text-2xl font-medium">{levelUnfolded ? "-" : "+"}</p>
+						</button>
 						<div className="flex flex-col items-start gap-2 pl-10">
-							{levelsList.map((level, index) => (
+							{levelUnfolded && levelsList.map((level, index) => (
 								<button
 									key={index}
 									onClick={() => handleLevelSelect(level)}

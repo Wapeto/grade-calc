@@ -212,7 +212,7 @@ export default function MainPage() {
 						)}`}</h3>
 					</div>
 					<ClassCardsContainer isCalculationTriggered={isCalculationTriggered} targetAverage={targetAverage} isResetTriggered={isResetTriggered}/>
-					<div className="flex w-full justify-between items-end border-t-2 mt-8 py-4 ">
+					<div className="flex w-full justify-between items-end border-t-2 mt-10 py-4 ">
 						<div className="flex flex-col items-start gap-2">
 							<p className="text-text-950">Moyenne visée</p>
 							<div className="input-field inline-flex items-center">
