@@ -4,34 +4,34 @@ import { ClassListContext } from '../ClassListContext';
 export const useClassList = () => {
   const { classList, updateClassList } = useContext(ClassListContext);
 
-  const editExamGrade = (className, examName, examValue) => {
-    const updatedClass = { ...classList[className] };
+  const editExamGrade = (level, className, examName, examValue) => {
+    const updatedClass = { ...classList[level][className] };
     const examIndex = updatedClass.exams.findIndex(exam => exam.name === examName);
     if (examIndex !== -1) {
       updatedClass.exams[examIndex].grade = examValue;
-      updateClassList(className, updatedClass);
+      updateClassList(level, className, updatedClass);
     }
   };
 
-  const editClassAverage = (className, averageValue) => {
+  const editClassAverage = (level, className, averageValue) => {
     // console.log(`%c${className}'s new average is ${averageValue}`, `color: DarkTurquoise`);
-    const updatedClass = { ...classList[className] };
+    const updatedClass = { ...classList[level][className] };
     updatedClass.average = averageValue;
-    updateClassList(className, updatedClass);
+    updateClassList(level, className, updatedClass);
   };
 
-  const editClassEdited = (className, isEdited) => {
-    const updatedClass = { ...classList[className] };
+  const editClassEdited = (level, className, isEdited) => {
+    const updatedClass = { ...classList[level][className] };
     updatedClass.isEdited = isEdited;
-    updateClassList(className, updatedClass);
+    updateClassList(level, className, updatedClass);
   };
 
-  const editExamEdited = (className, examName, isEdited) => {
-    const updatedClass = { ...classList[className] };
+  const editExamEdited = (level, className, examName, isEdited) => {
+    const updatedClass = { ...classList[level][className] };
     const examIndex = updatedClass.exams.findIndex(exam => exam.name === examName);
     if (examIndex !== -1) {
       updatedClass.exams[examIndex].isEdited = isEdited;
-      updateClassList(className, updatedClass);
+      updateClassList(level, className, updatedClass);
     }
   };
 

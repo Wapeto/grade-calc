@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import LvlDropdown from "../components/LvlDropdown.tsx";
 import ClassCardsContainer from "../components/ClassCardsContainer.tsx";
 import CalculateButton from "../components/CalculateButton.tsx";
 import { useClassList } from "../hooks/useClassList";
 import Sidebar from "../components/Sidebar.tsx";
-import { createOriginalClasslist } from "../hooks/createOriginalClasslist.js";
-import { ClassListContext } from "../ClassListContext";
 
 // TODO: Add instructions
 export default function MainPage() {
@@ -14,7 +12,6 @@ export default function MainPage() {
 	const [targetAverage, setTargetAverage] = useState(10);
 	const [isCalculationTriggered, setIsCalculationTriggered] = useState(false);
 
-	const { setOriginalClassList } = useContext(ClassListContext);
 	const { classList } = useClassList();
 
 	// const classList = React.useMemo(() => {
@@ -175,13 +172,10 @@ export default function MainPage() {
 		}
 	}, [isCalculationTriggered]);
 
-	const handleSelectedLevel = async (cursus, level) => {
+	const handleSelectedLevel = (cursus, level) => {
 		setChosenCursus(cursus);
 		setChosenLevel(level);
 		console.log("cursus :", cursus, "level :", level);
-		const ogClassList = await createOriginalClasslist(cursus, level);
-		console.log("ogClassList :", ogClassList);
-		setOriginalClassList(ogClassList);
 	};
 
 	return (
@@ -191,12 +185,9 @@ export default function MainPage() {
 				{chosenCursus !== "" && chosenLevel !== "" && (
 					<div className="p-2 flex w-full items-baseline gap-4 border-b-2">
 						<h2 className="font-bold text-3xl">{chosenCursus}</h2>
-						<h3 className="font-normal text-2xl">{`Semestre ${chosenLevel.slice(
-							1
-						)}`}</h3>
+						<h3 className="font-normal text-2xl">{chosenLevel}</h3>
 					</div>
 				)}
-				<ClassCardsContainer isCalculationTriggered={isCalculationTriggered} />
 			</div>
 		</div>
 	);

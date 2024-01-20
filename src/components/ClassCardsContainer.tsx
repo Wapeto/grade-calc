@@ -5,37 +5,36 @@ import Card from "./Card.tsx";
 import { calculateMissingValues } from "../hooks/calculateMissingValues.js";
 import { calculateAverage } from "../hooks/calculateAverage.js";
 
-const ClassCardsContainer = ({isCalculationTriggered }) => {
+const ClassCardsContainer = ({ currentLevel, isCalculationTriggered }) => {
 	const { classList, editExamGrade } = useClassList();
 	const { updateClassList } = React.useContext(ClassListContext);
 
 	const [updateTrigger, setUpdateTrigger] = useState(0);
 
 	const handleCardsEdit = (className, examName, examValue) => {
-		editExamGrade(className, examName, examValue);
+		editExamGrade(currentLevel, className, examName, examValue);
 
 		setUpdateTrigger((oldValue) => oldValue + 1);
 	};
 
-	// console.log("The values before edit are : ", classList);
-	// console.log(Object.keys(classList));
+	// console.log("The values before edit are : ", classList[currentLevel]);
 
 	useEffect(() => {
 		if (isCalculationTriggered) {
-			for (const className of Object.keys(classList)) {
-				for (const exam of classList[className].exams) {
+			for (const className of Object.keys(classList[currentLevel])) {
+				for (const exam of classList[currentLevel][className].exams) {
 					if (!exam.isEdited){
 						exam.grade = -1;
 					}
 				}
 			}
 			console.log("%cStart of calculations", "color: green");
-			// console.log('Values going into the calculation : ', classList[level]);
-			const updatedValues = calculateMissingValues(classList, 10);
+			// console.log('Values going into the calculation : ', classList[currentLevel]);
+			const updatedValues = calculateMissingValues(classList[currentLevel], 10);
 
 			// Update the context state with new values
 			Object.keys(updatedValues).forEach((className) => {
-				updateClassList(className, updatedValues[className]);
+				updateClassList(currentLevel, className, updatedValues[className]);
 			});
 
 			console.log("%cEnd of calculations", "color: green");
@@ -49,17 +48,18 @@ const ClassCardsContainer = ({isCalculationTriggered }) => {
 				console.log('%cNot good (there was an error calculating the missing averages or grades) :(', 'color: red');
 			}
 		}
-	}, [isCalculationTriggered, classList, updateClassList]);
+	}, [isCalculationTriggered, classList, currentLevel, updateClassList]);
 
 	return (
 		<div className="inline-flex max-w-70 justify-center items-start content-center gap-9 flex-wrap mt-28">
-			{Object.keys(classList).map((classTitle, index) => (
+			{Object.keys(classList[currentLevel]).map((classTitle, index) => (
 				<Card
 					key={index}
+					classLevel={currentLevel}
 					className={classTitle}
-					classCoef={classList[classTitle].coef}
+					classCoef={classList[currentLevel][classTitle].coef}
 					classAverage={-1}
-					// examList={classList[level][classTitle].exams}
+					// examList={classList[currentLevel][classTitle].exams}
 					onCardUpdate={handleCardsEdit}
 					updateTrigger={updateTrigger}
 					onCalculationTrigger={isCalculationTriggered}
