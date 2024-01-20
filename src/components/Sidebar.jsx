@@ -27,7 +27,7 @@ export default function Sidebar({levelHandling}) {
 			const querySnapshot = await getDocs(levelCollectionRef);
 
 			if (!querySnapshot.empty) {
-				foundLevels.push(`Semestre ${level[1]}`);
+				foundLevels.push(level);
 			}
 		}
 		if (foundLevels.length > 0) {
@@ -51,7 +51,7 @@ export default function Sidebar({levelHandling}) {
 		if (selectedLevel !== "" && selectedCursus !== "") {
 			levelHandling(selectedCursus, selectedLevel);
 		}
-	}, [levelHandling, selectedCursus, selectedLevel]);
+	}, [selectedCursus, selectedLevel]);
 
 	const handleCursusSelect = (cursusID) => {
 		setSelectedCursus(cursusID);
@@ -62,7 +62,7 @@ export default function Sidebar({levelHandling}) {
 	};
 
 	return (
-		<div className="sidebar min-h-screen w-64 py-7 px-6 bg-background-100 flex flex-col gap-12">
+		<div className="sidebar min-h-screen w-64 py-7 px-6 bg-background-100 flex flex-col gap-12 fixed">
 			<h1 className="text-text-950 font-semibold text-2xl border-b-2 border-b-secondary-200 py-2">
 				Grade Calculator
 			</h1>
@@ -105,7 +105,7 @@ export default function Sidebar({levelHandling}) {
 									key={index}
 									onClick={() => handleLevelSelect(level)}
 									className="text-text-500 hover:text-text-950 transition duration-300 ease-in-out">
-									{level}
+									{`Semestre ${level[1]}`}
 								</button>
 							))}
 						</div>
