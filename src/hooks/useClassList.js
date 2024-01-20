@@ -35,7 +35,21 @@ export const useClassList = () => {
     }
   };
 
+  const resetGrades = () => {
+    console.log('%cResetting grades...', 'color: DarkOrchid');
+    const currentClassList = { ...classList };
+    for (const className of Object.keys(currentClassList)) {
+      const currentClass = currentClassList[className];
+      currentClass.average = -1;
+      currentClass.isEdited = false;
+      for (const exam of currentClass.exams) {
+        exam.grade = -1;
+        exam.isEdited = false;
+      }
+    }
+  }
+
   // Add more functions here if needed
 
-  return { classList, editExamGrade, editClassAverage, editClassEdited, editExamEdited};
+  return { classList, editExamGrade, editClassAverage, editClassEdited, editExamEdited, resetGrades};
 };

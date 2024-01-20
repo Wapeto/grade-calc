@@ -36,6 +36,7 @@ const Card = ({
 	onCardUpdate,
 	updateTrigger,
 	onCalculationTrigger,
+	resetTrigger,
 }) => {
 	const cardRef = useRef<HTMLDivElement>(null);
 	const [isFolded, setFolded] = useState(true);
