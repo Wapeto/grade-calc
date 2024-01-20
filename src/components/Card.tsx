@@ -30,7 +30,6 @@ const getRandomImage = (className) => {
 
 const Card = ({
 	//.PROPS
-	classLevel,
 	className,
 	classCoef,
 	classAverage,
@@ -46,7 +45,7 @@ const Card = ({
 	const [average, setAverage] = useState(-1);
 
 	const { classList, editClassAverage, editClassEdited, editExamEdited } = useClassList();
-	const startExamList = classList[classLevel][className].exams;
+	const startExamList = classList[className].exams;
 	const [examList, setExamList] = useState(startExamList);
 
 	useEffect(() => {
@@ -60,10 +59,10 @@ const Card = ({
 
 		let fillCheck = examList.every((exam) => exam.grade !== -1) && userEdited;
 		setAllFilled(fillCheck);
-		editClassEdited(classLevel, className, userEdited);
+		editClassEdited( className, userEdited);
 
 		//update examList
-		setExamList(classList[classLevel][className].exams);
+		setExamList(classList[className].exams);
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [examList, updateTrigger, userEdited]);
@@ -80,7 +79,7 @@ const Card = ({
 	useEffect(() => {
 		//* Updates the average in the classList
 		// console.log('%cUpdating average for ', 'color: DarkOrchid', className, 'to', average);
-		editClassAverage(classLevel, className, average);
+		editClassAverage(className, average);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [average]);
 
@@ -107,17 +106,17 @@ const Card = ({
 		if (userEdited === false) {
 			// console.log("the grade has been edited for the first time");
 			setAverage(-1);
-			editClassAverage(classLevel, className, -1);
+			editClassAverage(className, -1);
 		}
 		setUserEdited(true);
 	};
 
 	const handleGradeUpdate = (examName, edited) => {
-		editExamEdited(classLevel, className, examName, edited);
+		editExamEdited(className, examName, edited);
 		// console.log('Edited state for', examName, 'is', edited);
 		if (!allFilled) {
 			setAverage(-1);
-			editClassAverage(classLevel, className, -1);
+			editClassAverage(className, -1);
 		}
 	}
 
@@ -137,14 +136,14 @@ const Card = ({
 				{...(!isFolded && { onClick: handleCardUnfold })}>
 				<p
 					className={`${
-						classList[classLevel][className].average !== -1
+						classList[className].average !== -1
 							? "opacity-100"
 							: "opacity-0"
 					} average-show-transition text-center ${
 						!userEdited ? "text-red-500" : "text-text-950/75"
 					} text-2xl font-semibold bg-primary-200/70 rounded-lg border-2 border-primary-800 px-3 py-1`}>
-					{classList[classLevel][className].average !== -1
-						? parseFloat(classList[classLevel][className].average.toFixed(2))
+					{classList[className].average !== -1
+						? parseFloat(classList[className].average.toFixed(2))
 						: ""}
 				</p>
 			</div>
@@ -169,7 +168,7 @@ const Card = ({
 					<ArrowIcon direction={isFolded ? "down" : "up"} />
 				</div>
 				<div className={`${isFolded ? "hidden" : "block"} mt-2`}>
-					{classList[classLevel][className].exams.map((exam, index) => (
+					{classList[className].exams.map((exam, index) => (
 						<Exam
 							key={index}
 							examName={exam.name}

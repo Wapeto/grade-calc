@@ -27,7 +27,7 @@ export default function Sidebar({levelHandling}) {
 			const querySnapshot = await getDocs(levelCollectionRef);
 
 			if (!querySnapshot.empty) {
-				foundLevels.push(`Semestre ${level[1]}`);
+				foundLevels.push(level);
 			}
 		}
 		if (foundLevels.length > 0) {
@@ -51,7 +51,7 @@ export default function Sidebar({levelHandling}) {
 		if (selectedLevel !== "" && selectedCursus !== "") {
 			levelHandling(selectedCursus, selectedLevel);
 		}
-	}, [levelHandling, selectedCursus, selectedLevel]);
+	}, [selectedCursus, selectedLevel]);
 
 	const handleCursusSelect = (cursusID: string) => {
 		setSelectedCursus(cursusID);
@@ -105,7 +105,7 @@ export default function Sidebar({levelHandling}) {
 									key={index}
 									onClick={() => handleLevelSelect(level)}
 									className="text-text-500 hover:text-text-950 transition duration-300 ease-in-out">
-									{level}
+									{`Semestre ${level.slice(1)}`}
 								</button>
 							))}
 						</div>
