@@ -22,6 +22,8 @@ export const createOriginalClasslist = async (cursus, level) => {
 				const examObject = new ExamModel(examName, -1, examCoef);
 				examList.push(examObject);
 			}
+			//Sort examList by exam Name
+			examList.sort((a, b) => (a.name > b.name ? 1 : -1));
 			const classObject = new ClassModel(level, className, examList, value.coef, -1);
 			// console.log(`%c${classObject.name} :`, "color: coral", classObject);
             finalList[className] = classObject;
