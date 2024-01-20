@@ -55,8 +55,9 @@ const ClassCardsContainer = ({isCalculationTriggered, isResetTriggered, targetAv
 
 			const globalAverage = calculateAverage("global", updatedValues);
 	
-			console.log("\n%cGlobal average : ", "color: green", globalAverage);
-			if (parseFloat(globalAverage.toFixed(2)) === 10){
+			console.log(`%cThe global average is ${globalAverage.toFixed(2)}`, `color: ${globalAverage >= targetAverage ? "green" : "red"}`);
+
+			if (parseFloat(globalAverage.toFixed(2)) === parseFloat(targetAverage)){
 				console.log('%cAll good !', 'color: green');
 			}else{
 				console.log('%cNot good (there was an error calculating the missing averages or grades) :(', 'color: red');
