@@ -62,7 +62,7 @@ export default function Sidebar({levelHandling}) {
 	};
 
 	return (
-		<div className="sidebar min-h-screen w-64 py-7 px-6 bg-background-100 flex flex-col gap-12 fixed">
+		<div className="sidebar min-h-screen w-64 py-7 px-6 bg-background-50 flex flex-col gap-12 fixed">
 			<h1 className="text-text-950 font-semibold text-2xl border-b-2 border-b-secondary-200 py-2">
 				Grade Calculator
 			</h1>

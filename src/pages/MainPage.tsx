@@ -185,7 +185,7 @@ export default function MainPage() {
 	};
 
 	return (
-		<div className="main-container bg-background-50 text-center min-w-screen min-h-screen flex ">
+		<div className="main-container bg-white text-center min-w-screen min-h-screen flex ">
 			<Sidebar levelHandling={handleSelectedLevel} />
 			<div className="flex flex-col flex-grow justify-start items-start p-7 pl-72">
 				{chosenCursus !== "" && chosenLevel !== "" && (
