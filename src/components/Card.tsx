@@ -139,8 +139,7 @@ const Card = ({
 				{classList[className].exams.map((exam, index) => (
 					<Exam
 						key={index}
-						examName={exam.name}
-						examGradeCoef={[exam.grade, exam.coef]}
+						exam={exam}
 						onExamUpdate={handleExamUpdate}
 						updateEditedState={handleGradeUpdate}
 					/>
