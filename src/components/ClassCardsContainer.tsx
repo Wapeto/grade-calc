@@ -17,7 +17,7 @@ const ClassCardsContainer = ({isCalculationTriggered }) => {
 		setUpdateTrigger((oldValue) => oldValue + 1);
 	};
 
-	console.log("The values before edit are : ", classList);
+	// console.log("The values before edit are : ", classList);
 	// console.log(Object.keys(classList));
 
 	useEffect(() => {

@@ -3,6 +3,7 @@ import ArrowIcon from "./ArrowIcon.tsx";
 import Exam from "./Exam.tsx";
 import { calculateAverage } from "../hooks/calculateAverage.js";
 import { useClassList } from "../hooks/useClassList";
+import defaultIcon from "../assets/icons/SVG/Class.svg";
 
 // TODO : Add images for each class
 // TODO : Add limit to 20 for the grades
@@ -26,7 +27,6 @@ const getRandomImage = (className) => {
 	const randomIndex = Math.floor(Math.random() * imageFiles.length);
 	return require(`../assets/images/${imageFiles[randomIndex]}`);
 };
-
 
 const Card = ({
 	//.PROPS
@@ -59,7 +59,7 @@ const Card = ({
 		if (!examList) return;
 		let fillCheck = examList.every((exam) => exam.grade !== -1) && userEdited;
 		setAllFilled(fillCheck);
-		editClassEdited( className, userEdited);
+		editClassEdited(className, userEdited);
 
 		//update examList
 		setExamList(classList[className].exams);
@@ -118,11 +118,33 @@ const Card = ({
 			setAverage(-1);
 			editClassAverage(className, -1);
 		}
-	}
+	};
 
 	return (
-		<div className="h-64 w-96 border-2 border-secondary-400">
-
+		<div className=" w-[25rem] border border-secondary-200 rounded-2xl p-4 flex flex-col items-start gap-4">
+			<div className="w-full flex justify-between">
+				<img src={defaultIcon} alt="default class icon" className="w-8 h-8" />
+				{classList[className].average !== -1 && (
+					<span className="inline-flex">
+						<p className="text-2xl font-bold text-primary-500">
+							{parseFloat(classList[className].average.toFixed(2))}
+						</p>
+						<p className="text-2xl font-bold text-text-950">{"/20"}</p>
+					</span>
+				)}
+			</div>
+			<h3 className="text-2xl font-semibold">{className}</h3>
+			<div className="flex flex-wrap gap-x-4 gap-y-2">
+				{classList[className].exams.map((exam, index) => (
+					<Exam
+						key={index}
+						examName={exam.name}
+						examGradeCoef={[exam.grade, exam.coef]}
+						onExamUpdate={handleExamUpdate}
+						updateEditedState={handleGradeUpdate}
+					/>
+				))}
+			</div>
 		</div>
 	);
 };
