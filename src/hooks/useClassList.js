@@ -31,6 +31,7 @@ export const useClassList = () => {
     const examIndex = updatedClass.exams.findIndex(exam => exam.name === examName);
     if (examIndex !== -1) {
       updatedClass.exams[examIndex].isEdited = isEdited;
+      updatedClass.exams[examIndex].isCalculated = false;
       updateClassList(className, updatedClass);
     }
   };
@@ -45,6 +46,7 @@ export const useClassList = () => {
       for (const exam of currentClass.exams) {
         exam.grade = -1;
         exam.isEdited = false;
+        exam.isCalculated = false;
       }
     }
   }
