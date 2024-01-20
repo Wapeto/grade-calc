@@ -21,7 +21,7 @@ const Exam = ({ exam, onExamUpdate, updateEditedState }) => {
 					type="number"
 					name={exam.name}
 					id={exam.name}
-					className={`w-24 h-8 border-y border-l rounded-l-md p-2 text-sm ${
+					className={`w-24 h-8 border-y border-l rounded-l-md py-2 pl-2 text-sm ${
 						!exam.isCalculated ? "border-secondary-200" : "border-primary-500"
 					}`}
 					onChange={handleExamValueChange}
