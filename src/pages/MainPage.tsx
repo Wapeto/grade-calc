@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
-import LvlDropdown from "../components/LvlDropdown.tsx";
 import ClassCardsContainer from "../components/ClassCardsContainer.tsx";
 import CalculateButton from "../components/CalculateButton.tsx";
-import { useClassList } from "../hooks/useClassList";
 import Sidebar from "../components/Sidebar.jsx";
 import { createOriginalClasslist } from "../hooks/createOriginalClasslist.js";
 import { ClassListContext } from "../ClassListContext";
@@ -17,154 +15,6 @@ export default function MainPage() {
 	const [isResetTriggered, setIsResetTriggered] = useState(false);
 
 	const { setOriginalClassList } = useContext(ClassListContext);
-	const { classList } = useClassList();
-
-	// const classList = React.useMemo(() => {
-	// 	return {
-	// 		S3: {
-	// 			Analyse: {
-	// 				exams: [
-	// 					new ExamModel("CC1", -1, 1),
-	// 					new ExamModel("CC2", -1, 2),
-	// 					new ExamModel("Projet", -1, 1),
-	// 				],
-	// 				coef: 4,
-	// 			},
-	// 			LPL: {
-	// 				exams: [
-	// 					new ExamModel("CC1", -1, 35),
-	// 					new ExamModel("CC2", -1, 50),
-	// 					new ExamModel("TP", -1, 15),
-	// 				],
-	// 				coef: 5,
-	// 			},
-	// 			Architecture: {
-	// 				exams: [
-	// 					new ExamModel("CC1", -1, 2),
-	// 					new ExamModel("CC2", -1, 5),
-	// 					new ExamModel("Projet", -1, 3),
-	// 				],
-	// 				coef: 3,
-	// 			},
-	// 			SDA: {
-	// 				exams: [
-	// 					new ExamModel("CC1", -1, 2),
-	// 					new ExamModel("CC2", -1, 4),
-	// 					new ExamModel("TP", -1, 4),
-	// 				],
-	// 				coef: 6,
-	// 			},
-	// 			POO: {
-	// 				exams: [
-	// 					new ExamModel("CC1", -1, 2),
-	// 					new ExamModel("TP", -1, 2),
-	// 					new ExamModel("Presence", -1, 1),
-	// 				],
-	// 				coef: 3,
-	// 			},
-	// 			"Tech Dev": {
-	// 				exams: [
-	// 					new ExamModel("Rendu 1", -1, 1),
-	// 					new ExamModel("Rendu 2", -1, 1),
-	// 					new ExamModel("Projet", -1, 1),
-	// 				],
-	// 				coef: 3,
-	// 			},
-	// 			Anglais: {
-	// 				exams: [
-	// 					new ExamModel("CC1", -1, 5),
-	// 					new ExamModel("POEM 1", -1, 2),
-	// 					new ExamModel("POEM 2", -1, 3),
-	// 				],
-	// 				coef: 3,
-	// 			},
-	// 			Option: {
-	// 				exams: [
-	// 					new ExamModel("CC1", -1, 1),
-	// 					new ExamModel("CC2", -1, 1),
-	// 					new ExamModel("CC3", -1, 1),
-	// 				],
-	// 				coef: 3,
-	// 			},
-	// 		},
-	// 		S4: {
-	// 			"Proba & Stat": {
-	// 				exams: [
-	// 					["CC1", 1],
-	// 					["CC2", 1],
-	// 					["Presence", 1],
-	// 				],
-	// 				coef: 4,
-	// 			},
-	// 			Analyse: {
-	// 				exams: [
-	// 					["CC1", 1],
-	// 					["CC2", 1],
-	// 					["TP", 1],
-	// 				],
-	// 				coef: 4,
-	// 			},
-	// 			Systems: {
-	// 				exams: [
-	// 					["Projet", 1],
-	// 					["CC1", 1],
-	// 					["TP", 1],
-	// 				],
-	// 				coef: 4,
-	// 			},
-	// 			Reseaux: {
-	// 				exams: [
-	// 					["CC1", 1],
-	// 					["CC2", 1],
-	// 					["Projet", 1],
-	// 				],
-	// 				coef: 4,
-	// 			},
-	// 			SDA: {
-	// 				exams: [
-	// 					["CC1", 1],
-	// 					["CC2", 1],
-	// 					["TP", 1],
-	// 				],
-	// 				coef: 4,
-	// 			},
-	// 			POO: {
-	// 				exams: [
-	// 					["CC1", 1],
-	// 					["TP", 1],
-	// 					["Projet", 1],
-	// 				],
-	// 				coef: 4,
-	// 			},
-	// 			Web: {
-	// 				exams: [
-	// 					["CC1", 1],
-	// 					["CC2", 1],
-	// 					["Projet", 1],
-	// 				],
-	// 				coef: 4,
-	// 			},
-	// 			Langue: {
-	// 				exams: [
-	// 					["CC1", 1],
-	// 					["CC2", 1],
-	// 					["Presence", 1],
-	// 				],
-	// 				coef: 4,
-	// 			},
-	// 			Option: {
-	// 				exams: [
-	// 					["CC1", 1],
-	// 					["CC2", 1],
-	// 					["CC3", 1],
-	// 				],
-	// 				coef: 4,
-	// 			},
-	// 		},
-	// 		S5: {},
-	// 		S6: {},
-	// 	};
-	// }, []);
 
 	const handleCalculateClick = () => {
 		setIsCalculationTriggered(true);
@@ -211,8 +61,12 @@ export default function MainPage() {
 							1
 						)}`}</h3>
 					</div>
-					<ClassCardsContainer isCalculationTriggered={isCalculationTriggered} targetAverage={targetAverage} isResetTriggered={isResetTriggered}/>
-					<div className="flex w-full justify-between items-end border-t-2 mt-10 py-4 ">
+					<ClassCardsContainer
+						isCalculationTriggered={isCalculationTriggered}
+						targetAverage={targetAverage}
+						isResetTriggered={isResetTriggered}
+					/>
+					<div className="flex w-full justify-between items-end border-t-2 mt-10 pb-2 pt-4 fixed bottom-0 bg-white ">
 						<div className="flex flex-col items-start gap-2">
 							<p className="text-text-950">Moyenne visée</p>
 							<div className="input-field inline-flex items-center">
@@ -228,18 +82,17 @@ export default function MainPage() {
 								</div>
 							</div>
 						</div>
-						<div className="flex items-center gap-4">
-							<ResetButton onClick={handleResetClick}/>
+						<div className="flex items-center gap-4 bg-red fixed right-2 bottom-4">
+							<ResetButton onClick={handleResetClick} />
 							<CalculateButton onClick={handleCalculateClick} />
 						</div>
 					</div>
 				</div>
-			):(
+			) : (
 				<div className="flex flex-col flex-grow justify-center items-center p-7 pl-72 text-text-400 text-3xl">
 					Choisissez un cursus et un niveau
 				</div>
-			)
-			}
+			)}
 		</div>
 	);
 }

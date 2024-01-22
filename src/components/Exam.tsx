@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 
 const Exam = ({ exam, onExamUpdate, updateEditedState }) => {
-	const [isUserEdited, setIsUserEdited] = useState(false);
 
 	const handleExamValueChange = (e) => {
 		// const value = parseFloat(e.target.value);
 		const value = e.target.value;
 		onExamUpdate(exam.name, value === "" ? -1 : value);
-		setIsUserEdited(value !== "");
 		updateEditedState(exam.name, value !== "");
 	};
 

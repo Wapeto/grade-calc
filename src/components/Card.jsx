@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
-import ArrowIcon from "./ArrowIcon.tsx";
+import React, { useState, useEffect } from "react";
 import Exam from "./Exam.tsx";
 import { calculateAverage } from "../hooks/calculateAverage.js";
 import { useClassList } from "../hooks/useClassList.js";
@@ -9,6 +8,7 @@ import defaultIcon from "../assets/icons/SVG/Class.svg";
 // TODO : Add limit to 20 for the grades
 // TODO : Add warning when the grade is over 20, not a number or < 0
 // TODO : Add a way to specify max/min grade for an exam (ex: CC1: <20, TP: >10)
+// TODO : Add a way to choose between different options
 
 // Simplified image import and selection logic
 const images = {
@@ -38,8 +38,6 @@ const Card = ({
 	onCalculationTrigger,
 	resetTrigger,
 }) => {
-	const cardRef = useRef<HTMLDivElement>(null);
-	const [isFolded, setFolded] = useState(true);
 	const [imageUrl, setImageUrl] = useState("");
 	const [allFilled, setAllFilled] = useState(false);
 	const [userEdited, setUserEdited] = useState(false);
@@ -95,12 +93,6 @@ const Card = ({
 		}
 	}, [onCalculationTrigger, allFilled, className]);
 
-	const handleCardUnfold = () => {
-		setFolded(!isFolded);
-		if (isFolded && cardRef.current) {
-			cardRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-		}
-	};
 
 	const handleExamUpdate = (examName, examValue) => {
 		onCardUpdate(className, examName, examValue);
