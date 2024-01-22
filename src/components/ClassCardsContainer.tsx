@@ -31,6 +31,7 @@ const ClassCardsContainer = ({isCalculationTriggered, isResetTriggered, targetAv
 		if (isResetTriggered) {
 			handleReset();
 		}
+		//eslint-disable-next-line
 	}, [isResetTriggered]);
 
 	useEffect(() => {
@@ -66,7 +67,7 @@ const ClassCardsContainer = ({isCalculationTriggered, isResetTriggered, targetAv
 	}, [isCalculationTriggered, classList, updateClassList, targetAverage]);
 
 	return (
-		<div className="inline-flex justify-center items-start content-center gap-9 flex-wrap mt-12">
+		<div className="inline-flex justify-center items-start content-center gap-9 flex-wrap mt-12 pb-24">
 			{Object.keys(classList).map((classTitle, index) => (
 				<Card
 					key={index}
