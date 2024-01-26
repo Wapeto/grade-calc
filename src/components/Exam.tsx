@@ -1,27 +1,36 @@
-import React, {useState } from "react";
+import React from "react";
 
-const Exam = ({ examName, examGradeCoef, onExamUpdate, updateEditedState }) => {
-	const [isUserEdited, setIsUserEdited] = useState(false);
-	const isCalculatedGrade = examGradeCoef[0] === -1;
+const Exam = ({ exam, onExamUpdate, updateEditedState }) => {
 
 	const handleExamValueChange = (e) => {
 		// const value = parseFloat(e.target.value);
 		const value = e.target.value;
-		onExamUpdate(examName, value === "" ? -1 : value);
-		setIsUserEdited(value !== "");
-        updateEditedState(examName, value !== "");
+		onExamUpdate(exam.name, value === "" ? -1 : value);
+		updateEditedState(exam.name, value !== "");
 	};
 
 	return (
-		<input
-			type="text"
-			placeholder={examName}
-			value={isCalculatedGrade ? "" : examGradeCoef[0]}
-			onInput={(e) => handleExamValueChange(e)}
-			className={`w-[60%] my-2 bg-primary-300/50 placeholder-black/50 text-center font-bold border-primary-600 border-2 rounded-lg ${
-				!isUserEdited ? "calculated-grade-class" : "user-grade-class"
-			}`}
-		/>
+		<div className="exam flex flex-col items-start gap-1">
+			<label htmlFor={exam.name} className="text-base font-normal">
+				{exam.name}
+			</label>
+			<div className="input-field inline-flex items-center">
+				<input
+					type="number"
+					name={exam.name}
+					id={exam.name}
+					className={`w-24 h-8 border-y border-l rounded-l-md py-2 pl-2 text-sm ${
+						!exam.isCalculated ? "border-secondary-200" : "border-primary-500"
+					}`}
+					onChange={handleExamValueChange}
+					value={exam.grade === -1 ? "" : exam.grade}
+				/>
+				<div
+					className={`h-full text-base font-normal text-text-500 bg-white border-y border-r rounded-r px-2 flex items-center ${
+						!exam.isCalculated ? "border-secondary-200" : "border-primary-500"
+					}`}>{`Coef ${exam.coef}`}</div>
+			</div>
+		</div>
 	);
 };
 

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 127.96 170.77">
+  <defs>
+    <style>
+      .cls-1 {
+        font-family: CascadiaCodeRoman-SemiBold, 'Cascadia Code';
+        font-size: 30px;
+        font-variation-settings: 'wght' 600;
+        font-weight: 600;
+        letter-spacing: .09em;
+      }
+
+      .cls-2, .cls-3 {
+        fill: none;
+      }
+
+      .cls-2, .cls-3, .cls-4, .cls-5 {
+        stroke: #000;
+        stroke-width: 3px;
+      }
+
+      .cls-2, .cls-4 {
+        stroke-linejoin: round;
+      }
+
+      .cls-3, .cls-5 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-6 {
+        stroke-width: 0px;
+      }
+
+      .cls-6, .cls-4 {
+        fill: #fff;
+      }
+
+      .cls-5 {
+        fill: url(#linear-gradient);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="21.59" y1="10.27" x2="102.51" y2="153.64" gradientUnits="userSpaceOnUse">
+      <stop offset=".04" stop-color="#c7e9fa"/>
+      <stop offset="1" stop-color="#0065a7"/>
+    </linearGradient>
+  </defs>
+  <g id="Layer_2-2" data-name="Layer 2">
+    <rect class="cls-5" x="1.5" y="1.5" width="124.96" height="167.77" rx="18.98" ry="18.98"/>
+    <g>
+      <rect class="cls-4" x="17" y="26.44" width="96.21" height="37.45"/>
+      <text class="cls-1" transform="translate(26.11 56.54)"><tspan x="0" y="0">????</tspan></text>
+    </g>
+    <g>
+      <rect class="cls-4" x="16.95" y="73.84" width="15.91" height="13.7"/>
+      <rect class="cls-4" x="43.42" y="73.84" width="15.91" height="13.7"/>
+      <rect class="cls-4" x="70.36" y="73.84" width="15.91" height="13.7"/>
+      <rect class="cls-4" x="97.29" y="73.84" width="15.91" height="13.7"/>
+    </g>
+    <g>
+      <rect class="cls-4" x="17" y="96.95" width="15.91" height="13.7"/>
+      <rect class="cls-4" x="43.46" y="96.95" width="15.91" height="13.7"/>
+      <rect class="cls-4" x="70.4" y="96.95" width="15.91" height="13.7"/>
+      <rect class="cls-4" x="97.34" y="96.95" width="15.91" height="13.7"/>
+    </g>
+    <g>
+      <rect class="cls-4" x="17" y="120.05" width="15.91" height="13.7"/>
+      <rect class="cls-4" x="43.46" y="120.05" width="15.91" height="13.7"/>
+      <rect class="cls-4" x="70.4" y="120.05" width="15.91" height="13.7"/>
+      <rect class="cls-4" x="97.34" y="120.05" width="15.91" height="36.81"/>
+    </g>
+    <g>
+      <g>
+        <rect class="cls-6" x="17" y="143.16" width="15.91" height="13.7"/>
+        <rect class="cls-6" x="43.46" y="143.16" width="15.91" height="13.7"/>
+        <rect class="cls-6" x="70.4" y="143.16" width="15.91" height="13.7"/>
+      </g>
+      <g>
+        <rect class="cls-2" x="17" y="143.16" width="15.91" height="13.7"/>
+        <rect class="cls-2" x="43.46" y="143.16" width="15.91" height="13.7"/>
+        <rect class="cls-2" x="70.4" y="143.16" width="15.91" height="13.7"/>
+      </g>
+      <g>
+        <rect class="cls-3" x="17" y="143.16" width="15.91" height="13.7"/>
+        <rect class="cls-3" x="43.46" y="143.16" width="15.91" height="13.7"/>
+        <rect class="cls-3" x="70.4" y="143.16" width="15.91" height="13.7"/>
+      </g>
+    </g>
+  </g>
+</svg>

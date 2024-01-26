@@ -1,13 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
-import ArrowIcon from "./ArrowIcon.tsx";
+import React, { useState, useEffect } from "react";
 import Exam from "./Exam.tsx";
 import { calculateAverage } from "../hooks/calculateAverage.js";
-import { useClassList } from "../hooks/useClassList";
+import { useClassList } from "../hooks/useClassList.js";
+import defaultIcon from "../assets/icons/SVG/Class.svg";
 
 // TODO : Add images for each class
 // TODO : Add limit to 20 for the grades
 // TODO : Add warning when the grade is over 20, not a number or < 0
 // TODO : Add a way to specify max/min grade for an exam (ex: CC1: <20, TP: >10)
+// TODO : Add a way to choose between different options
 
 // Simplified image import and selection logic
 const images = {
@@ -27,26 +28,23 @@ const getRandomImage = (className) => {
 	return require(`../assets/images/${imageFiles[randomIndex]}`);
 };
 
-
 const Card = ({
 	//.PROPS
-	classLevel,
 	className,
 	classCoef,
 	classAverage,
 	onCardUpdate,
 	updateTrigger,
 	onCalculationTrigger,
+	resetTrigger,
 }) => {
-	const cardRef = useRef<HTMLDivElement>(null);
-	const [isFolded, setFolded] = useState(true);
 	const [imageUrl, setImageUrl] = useState("");
 	const [allFilled, setAllFilled] = useState(false);
 	const [userEdited, setUserEdited] = useState(false);
 	const [average, setAverage] = useState(-1);
 
 	const { classList, editClassAverage, editClassEdited, editExamEdited } = useClassList();
-	const startExamList = classList[classLevel][className].exams;
+	const startExamList = classList[className].exams;
 	const [examList, setExamList] = useState(startExamList);
 
 	useEffect(() => {
@@ -57,13 +55,13 @@ const Card = ({
 	useEffect(() => {
 		//* Sets the values for allFilled and userEdited
 		// console.log(`${className} has been %c edited : %c ${userEdited}`, "color: DarkOrchid", `color: ${userEdited ? "green" : "red"}`);
-
+		if (!examList) return;
 		let fillCheck = examList.every((exam) => exam.grade !== -1) && userEdited;
 		setAllFilled(fillCheck);
-		editClassEdited(classLevel, className, userEdited);
+		editClassEdited(className, userEdited);
 
 		//update examList
-		setExamList(classList[classLevel][className].exams);
+		setExamList(classList[className].exams);
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [examList, updateTrigger, userEdited]);
@@ -80,7 +78,7 @@ const Card = ({
 	useEffect(() => {
 		//* Updates the average in the classList
 		// console.log('%cUpdating average for ', 'color: DarkOrchid', className, 'to', average);
-		editClassAverage(classLevel, className, average);
+		editClassAverage(className, average);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [average]);
 
@@ -95,90 +93,49 @@ const Card = ({
 		}
 	}, [onCalculationTrigger, allFilled, className]);
 
-	const handleCardUnfold = () => {
-		setFolded(!isFolded);
-		if (isFolded && cardRef.current) {
-			cardRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-		}
-	};
 
 	const handleExamUpdate = (examName, examValue) => {
 		onCardUpdate(className, examName, examValue);
 		if (userEdited === false) {
 			// console.log("the grade has been edited for the first time");
 			setAverage(-1);
-			editClassAverage(classLevel, className, -1);
+			editClassAverage(className, -1);
 		}
 		setUserEdited(true);
 	};
 
 	const handleGradeUpdate = (examName, edited) => {
-		editExamEdited(classLevel, className, examName, edited);
+		editExamEdited(className, examName, edited);
 		// console.log('Edited state for', examName, 'is', edited);
 		if (!allFilled) {
 			setAverage(-1);
-			editClassAverage(classLevel, className, -1);
+			editClassAverage(className, -1);
 		}
-	}
+	};
 
 	return (
-		<div
-			ref={cardRef}
-			className={`flex flex-col w-48 ${
-				isFolded ? "h-48" : "h-64"
-			} content-center items-center cursor-pointer`}
-			{...(isFolded && { onClick: handleCardUnfold })}>
-			{/* Image */}
-			<div
-				style={{ "--image-url": `url(${imageUrl})` } as React.CSSProperties}
-				className={`inline-flex items-center justify-center class-card-image w-full ${
-					isFolded ? "h-32" : "h-28"
-				} rounded-t-lg border-primary-500 border-x-2 border-t-2 bg-[image:var(--image-url)]`}
-				{...(!isFolded && { onClick: handleCardUnfold })}>
-				<p
-					className={`${
-						classList[classLevel][className].average !== -1
-							? "opacity-100"
-							: "opacity-0"
-					} average-show-transition text-center ${
-						!userEdited ? "text-red-500" : "text-text-950/75"
-					} text-2xl font-semibold bg-primary-200/70 rounded-lg border-2 border-primary-800 px-3 py-1`}>
-					{classList[classLevel][className].average !== -1
-						? parseFloat(classList[classLevel][className].average.toFixed(2))
-						: ""}
-				</p>
+		<div className=" w-[25rem] border border-secondary-200 rounded-2xl p-4 flex flex-col items-start gap-4">
+			<div className="w-full flex justify-between">
+				<img src={defaultIcon} alt="default class icon" className="w-8 h-8" />
+				{classList[className].average !== -1 && (
+					<span className="inline-flex">
+						<p className="text-2xl font-bold text-primary-500">
+							{parseFloat(classList[className].average.toFixed(2))}
+						</p>
+						<p className="text-2xl font-bold text-text-950">{"/20"}</p>
+					</span>
+				)}
 			</div>
-			{/* Bottom */}
-			<div
-				className={`card-folding-transition w-full overflow-hidden bg-secondary-300 rounded-b-lg border-x-2 border-b-2 border-primary-400 ${
-					isFolded
-						? "h-[20%] inline-flex items-center justify-center"
-						: "flex flex-col items-center h-full"
-				}`}>
-				<div
-					className={`inline-flex justify-center items-center gap-2 ${
-						!isFolded && "border-b-2 border-text-950"
-					}`}
-					{...(!isFolded && { onClick: handleCardUnfold })}>
-					<p
-						className={`text-center text-text-950 text-lg font-semibold ${
-							!isFolded && "mt-1"
-						}`}>
-						{className}
-					</p>
-					<ArrowIcon direction={isFolded ? "down" : "up"} />
-				</div>
-				<div className={`${isFolded ? "hidden" : "block"} mt-2`}>
-					{classList[classLevel][className].exams.map((exam, index) => (
-						<Exam
-							key={index}
-							examName={exam.name}
-							examGradeCoef={[exam.grade, exam.coef]}
-							onExamUpdate={handleExamUpdate}
-							updateEditedState={handleGradeUpdate}
-						/>
-					))}
-				</div>
+			<h3 className="text-2xl font-semibold">{className}</h3>
+			<div className="flex flex-wrap gap-x-4 gap-y-2">
+				{classList[className].exams.map((exam, index) => (
+					<Exam
+						key={index}
+						exam={exam}
+						onExamUpdate={handleExamUpdate}
+						updateEditedState={handleGradeUpdate}
+					/>
+				))}
 			</div>
 		</div>
 	);

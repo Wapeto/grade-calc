@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 43.19 31.47">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #cccccb;
+        stroke-linejoin: round;
+        stroke-width: 2px;
+      }
+    </style>
+  </defs>
+  <g id="Icons">
+    <g id="University">
+      <g id="Chapeau">
+        <path class="cls-1" d="M34.34,15.36v8.99c0,6.12-12.58,6.12-12.58,6.12,0,0-12.67,0-12.77-6.12-.05-3.83-.14-8.99-.14-8.99h.12l12.46,6.3,12.67-6.3h.25Z"/>
+        <polygon class="cls-1" points="42.19 11.33 34.09 15.36 21.43 21.66 8.97 15.36 1 11.33 21.39 1 42.19 11.33"/>
+      </g>
+      <g id="Pendant">
+        <line class="cls-1" x1="38.69" y1="13.38" x2="38.69" y2="19.09"/>
+        <ellipse class="cls-1" cx="38.69" cy="20.58" rx="1.41" ry="1.5"/>
+        <path class="cls-1" d="M40.17,24.01v2.32h-2.96v-2.32s0-.07,0-.11c.05-.81.69-1.46,1.47-1.46s1.41.65,1.47,1.46c0,.04,0,.07,0,.11Z"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26.04 26.09">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #cccccb;
+        stroke-linejoin: round;
+        stroke-width: 2px;
+      }
+    </style>
+  </defs>
+  <g id="Icons">
+    <g id="Settings">
+      <path class="cls-1" d="M9.99,25.09c.2-1.36-.23-3.36-1.68-4.13s-2.99-.21-4.28.65l-3.04-5.11c1.28-.5,2.84-1.81,2.77-3.44s-1.31-2.69-2.7-3.38l2.99-5.26c1.08.85,3.01,1.49,4.39.61s1.68-2.48,1.57-4.03h6.02c-.2,1.35.23,3.35,1.68,4.12s2.99.21,4.28-.65l3.04,5.11c-1.28.5-2.84,1.81-2.77,3.44s1.31,2.69,2.7,3.38l-3,5.22c-1.08-.85-3.03-1.48-4.41-.61s-1.68,2.48-1.57,4.03l-5.98.05h0Z"/>
+      <circle class="cls-1" cx="13.02" cy="13.05" r="3.99"/>
+    </g>
+  </g>
+</svg>

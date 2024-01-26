@@ -3,68 +3,92 @@
 @import "tailwindcss/utilities";
 
 body {
-  margin: 0;
-  font-family: "Ubuntu", "Poppins", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", "Roboto", "Oxygen", "Cantarell", "Fira Sans", "Droid Sans",
-    "Helvetica Neue", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+		"Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 .main-container {
-  background: linear-gradient(180deg, #ede8c8 19.79%, #e3d996 100%);
+	.sidebar {
+		.svg {
+			filter: brightness(0.5);
+			height: 2rem;
+			width: 2rem;
+		}
 
-  .text-no-fill {
-    -webkit-text-fill-color: transparent;
-  }
+    .category-title {
+      transition: all 0.3s ease-out;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
 
-  .text-stroke-black {
-    -webkit-text-stroke-width: 2px;
-    -webkit-text-stroke-color: #000;
-  }
+      &:hover {
+        background-color: #e6e6e6;
+      }
+    }
+	}
 
-  .max-w-70 {
-    max-width: 70%;
-  }
+  .input-field {
+    box-shadow: 0px 4px 4.3px 0px rgba(166, 166, 166, 0.05);
 
-  .class-card-image {
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-
-    transition: all 0.5s ease-out;
-
-    &:hover {
-      background-size: 105%;
-      background-position: bottom;
+    input {
+      outline: none;
     }
   }
+
+
+	.text-no-fill {
+		-webkit-text-fill-color: transparent;
+	}
+
+	.text-stroke-black {
+		-webkit-text-stroke-width: 2px;
+		-webkit-text-stroke-color: #000;
+	}
+
+	.max-w-70 {
+		max-width: 70%;
+	}
+
+	.class-card-image {
+		background-size: 100%;
+		background-repeat: no-repeat;
+		background-position: center;
+
+		transition: all 0.5s ease-out;
+
+		&:hover {
+			background-size: 105%;
+			background-position: bottom;
+		}
+	}
 }
 
 .card-folding-transition {
-  transition: height 0.4s ease-out;
+	transition: height 0.4s ease-out;
 }
 
 .dropdown-anim {
-  &::-webkit-scrollbar {
-    width: 0;
-  }
-  
-  transition: max-height 0.3s ease-in-out, border 0.2s ease-out;
+	&::-webkit-scrollbar {
+		width: 0;
+	}
+
+	transition: max-height 0.3s ease-in-out, border 0.2s ease-out;
 }
 
 .average-show-transition {
-  transition: opacity 0.3s ease-in-out;
+	transition: opacity 0.3s ease-in-out;
 }
 
 .arrow-icon {
-  transition: transform 0.4s ease-out;
+	transition: transform 0.4s ease-out;
 }
 
 .calculated-grade-class {
-  color: red
+	color: red;
 }
 
 .user-grade-class {
-  color: black
+	color: black;
 }
