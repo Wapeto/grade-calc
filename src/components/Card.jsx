@@ -5,8 +5,6 @@ import { useClassList } from "../hooks/useClassList.js";
 import defaultIcon from "../assets/icons/SVG/Class.svg";
 
 // TODO : Add images for each class
-// TODO : Add limit to 20 for the grades
-// TODO : Add warning when the grade is over 20, not a number or < 0
 // TODO : Add a way to specify max/min grade for an exam (ex: CC1: <20, TP: >10)
 // TODO : Add a way to choose between different options
 
@@ -93,7 +91,6 @@ const Card = ({
 		}
 	}, [onCalculationTrigger, allFilled, className]);
 
-
 	const handleExamUpdate = (examName, examValue) => {
 		onCardUpdate(className, examName, examValue);
 		if (userEdited === false) {
@@ -113,8 +110,16 @@ const Card = ({
 		}
 	};
 
+	const getCardBorderColor = (average) => {
+		if (average > 20) return "border-red-500";
+		// if (average === -1) return "border-secondary-200";
+		// else if (average < 0) return "border-green-500";
+		// else if (average > 20) return "border-red-500";
+		else return "border-secondary-200";
+	};
+
 	return (
-		<div className=" w-[45%] border border-secondary-200 rounded-2xl p-4 flex flex-col items-start gap-4">
+		<div className={`w-[45%] border ${getCardBorderColor(classList[className].average)} rounded-2xl p-4 flex flex-col items-start gap-4`}>
 			<div className="w-full flex justify-between">
 				<img src={defaultIcon} alt="default class icon" className="w-8 h-8" />
 				{classList[className].average !== -1 && (
@@ -126,7 +131,10 @@ const Card = ({
 					</span>
 				)}
 			</div>
-			<h3 className="text-2xl font-semibold">{className}</h3>
+			<span className="flex justify-start gap-2 items-baseline">
+				<h3 className="text-2xl font-semibold">{className}</h3>
+				<p className="text-md text-text-600/50">{"Coef " + classList[className].coef}</p>
+			</span>
 			<div className="flex flex-wrap gap-x-4 gap-y-2">
 				{classList[className].exams.map((exam, index) => (
 					<Exam
