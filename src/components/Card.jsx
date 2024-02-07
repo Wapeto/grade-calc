@@ -114,7 +114,7 @@ const Card = ({
 	};
 
 	return (
-		<div className=" w-[25rem] border border-secondary-200 rounded-2xl p-4 flex flex-col items-start gap-4">
+		<div className=" w-[45%] border border-secondary-200 rounded-2xl p-4 flex flex-col items-start gap-4">
 			<div className="w-full flex justify-between">
 				<img src={defaultIcon} alt="default class icon" className="w-8 h-8" />
 				{classList[className].average !== -1 && (
