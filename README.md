@@ -12,4 +12,4 @@ Furthermore this app can make errors and you should not solely rely on it to cal
 
 ## Author
 
-This app was made by [**Wapeto**], please contact me if you have any questions or suggestions at : <support@wapeto.com>
+This app was made by **Wapeto**, please contact me if you have any questions or suggestions at : <wapetoglock@gmail.com>
